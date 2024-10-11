@@ -5,6 +5,7 @@ import {
   faBackwardStep,
   faDownLong,
   faEject,
+  faForward,
   faForwardStep,
   faHandPointer,
   faMinus,
@@ -13,21 +14,8 @@ import {
   faUpLong,
   faX,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-type symbolKeys =
-  | 'backward'
-  | 'backwardFast'
-  | 'backwardStep'
-  | 'down'
-  | 'eject'
-  | 'forwardStep'
-  | 'pause'
-  | 'point'
-  | 'play'
-  | 'reload'
-  | 'up'
-  | 'x';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {symbolKeys} from '../../types';
 
 type TProps = {
   leftLong?: symbolKeys;
@@ -49,6 +37,8 @@ const symbols: { [key: string]: IconDefinition } = {
   point: faHandPointer,
   play: faPlay,
   reload: faArrowRotateRight,
+  skipDown: faForward,
+  skipUp: faForward,
   up: faUpLong,
   x: faX,
 };
@@ -62,7 +52,6 @@ const NavIndicator: React.FC<TProps> = ({ leftLong, leftShort, centreLong, centr
 
   return (
     <div className={`fixed bottom-0 left-0 m-1 py-2 rounded-lg border-2 bg-black text-3xl`}>
-      {/* <p className="mb-2 pl-2 pt-1 text-left text-4xl font-semibold text-bj-blue-light">{showShort ? 'Short' : ''}</p> */}
 
       {showShort ? (
         <div className="grid grid-cols-3">
@@ -86,14 +75,12 @@ const NavIndicator: React.FC<TProps> = ({ leftLong, leftShort, centreLong, centr
         null
       )}
 
-      {/* {showLong ? (
-        <p className="mb-0 mt-2 pl-2 pt-1 text-left text-4xl font-semibold text-bj-green-light">Long</p>
-      ) : null} */}
       {showLong ? (
         <div className="grid grid-cols-3">
           <FontAwesomeIcon
             className="mx-3 mt-2 text-center text-bj-green-light"
             icon={leftLong ? symbols[leftLong] : faMinus}
+            rotation={leftLong === 'skipUp' ? 270 : undefined}
           />
 
           <FontAwesomeIcon
@@ -104,6 +91,7 @@ const NavIndicator: React.FC<TProps> = ({ leftLong, leftShort, centreLong, centr
           <FontAwesomeIcon
             className="mx-3 mt-2 text-center text-bj-green-light"
             icon={rightLong ? symbols[rightLong] : faMinus}
+            rotation={rightLong === 'skipDown' ? 90 : undefined}
           />
         </div>
       ) : null}

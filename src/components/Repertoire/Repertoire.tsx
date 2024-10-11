@@ -59,28 +59,50 @@ const Repertoire = () => {
     if (isLoaded) {
       // TODO: refactor with switch
       const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
-      if (event.key === footswitch.centreShort) {
-        buttonsRef.current[currentIndex].click();
-      } else if (event.key === footswitch.leftShort && currentIndex > 0) {
-        buttonsRef.current[currentIndex - 1].focus();
-        buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else if (event.key === footswitch.leftShort && currentIndex === 0) {
-        buttonsRef.current[repertoireList.length - 1].focus();
-        buttonsRef.current[repertoireList.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else if (event.key === footswitch.rightShort) {
-        if (currentIndex < buttonsRef.current.length - 1) {
-          buttonsRef.current[currentIndex + 1].focus();
-          buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (currentIndex === buttonsRef.current.length - 1) {
-          buttonsRef.current[0].focus();
-          buttonsRef.current[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (endOfListRef.current) {
-          endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-      } else if (event.key === footswitch.leftLong) {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        }
+      switch (event.key) {
+        case footswitch.centreShort:
+          buttonsRef.current[currentIndex].click();
+          break;
+        case footswitch.leftShort:
+          if (currentIndex > 0) {
+            buttonsRef.current[currentIndex - 1].focus();
+            buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else if (currentIndex === 0) {
+            buttonsRef.current[repertoireList.length - 1].focus();
+            buttonsRef.current[repertoireList.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          break;
+        case footswitch.rightShort:
+          if (currentIndex < buttonsRef.current.length - 1) {
+            buttonsRef.current[currentIndex + 1].focus();
+            buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else if (currentIndex === buttonsRef.current.length - 1) {
+            buttonsRef.current[0].focus();
+            buttonsRef.current[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else if (endOfListRef.current) {
+            endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
+          }
+          break;
+        case footswitch.leftLong:
+          if (currentIndex > 10) {
+            buttonsRef.current[currentIndex - 10].focus();
+            buttonsRef.current[currentIndex - 10].scrollIntoView({behavior: 'smooth', block: 'center'});
+          } else { 
+            buttonsRef.current[0].focus();
+            buttonsRef.current[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+          }
+          break;
+        case footswitch.rightLong:
+          if (currentIndex + 10 < buttonsRef.current.length) {
+            buttonsRef.current[currentIndex + 10].focus();
+            buttonsRef.current[currentIndex + 10].scrollIntoView({behavior: 'smooth', block: 'center'});
+          } else {
+            buttonsRef.current[buttonsRef.current.length - 1].focus();
+            buttonsRef.current[buttonsRef.current.length - 1].scrollIntoView({behavior: 'smooth', block: 'center'});
+          }
+          break;
+        default:
+          break;
       }
     }
   };
@@ -120,7 +142,7 @@ const Repertoire = () => {
           <div ref={endOfListRef} />
         </ul>
       </div>
-      <NavIndicator leftShort="up" centreShort="point" rightShort="down" />
+      <NavIndicator leftShort="up" centreShort="point" rightShort="down" leftLong="skipUp" rightLong="skipDown" />
     </div>
   );
 };

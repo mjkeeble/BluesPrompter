@@ -61,15 +61,16 @@ export type symbolKeys =
   | 'backwardFast'
   | 'backwardStep'
   | 'down'
-  | 'forward'
-  | 'forwardFast'
+  | 'eject'
   | 'forwardStep'
   | 'pause'
   | 'point'
   | 'play'
-  | 'stop'
+  | 'reload'
+  | 'skipDown'
+  | 'skipUp'
   | 'up'
-  | undefined;
+  | 'x';
 
 export type SongAction =
   | { type: 'SET_TITLE'; payload: string }
