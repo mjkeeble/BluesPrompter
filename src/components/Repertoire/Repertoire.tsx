@@ -23,16 +23,24 @@ const Repertoire = () => {
         setRepertoireList(songList);
       }
     }
-  
+    
+    storeSetlist([0]);
+    storeSongs([]);
     getAndSetSongs()
   }, [])
   
   useEffect(() => {
-    storeSetlist([0]);
-    storeSongs([]);
-    if (buttonsRef.current[0]) {
-      buttonsRef.current[0].focus();
-    }
+    const focusFirstButton = () => {
+      if (buttonsRef.current[0]) {
+        buttonsRef.current[0].focus();
+      }
+    };
+
+    // Use a timeout to ensure the elements are rendered
+    const timerId = setTimeout(focusFirstButton, 500);
+
+    // Cleanup the timeout
+    return () => clearTimeout(timerId);
   }, []);
 
   useEffect(() => {
@@ -80,15 +88,13 @@ const Repertoire = () => {
   const handleSelectSong = (id: number) => {
     let storageUpdateDebounce: NodeJS.Timeout | null = null;
 
-    console.log('storing to setlist', id);
     storeSetlist([BREAK, Number(id)]);
     fetchAndStoreSongs([id]);
     if (storageUpdateDebounce) clearTimeout(storageUpdateDebounce);
     storageUpdateDebounce = setTimeout(() => {
-      console.log('storing to setlist', id);
 
       navigate(`/song/1`);
-    }, 3000);
+    }, 500);
   };
 
   return (
