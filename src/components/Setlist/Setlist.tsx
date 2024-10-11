@@ -1,23 +1,42 @@
-import { getSetlist } from '@context/index';
+import { storeSetlist } from '@context/index';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '..';
-import gigs from '../../../data/gigs.json';
-import songs from '../../../data/songs.json';
 import { BREAK, footswitch } from '../../const';
 import { TBreak, TGig, TSetlist, TSong } from '../../types';
-import { displayDate } from '../../utils';
+import { displayDate, flattenSetlist } from '../../utils';
+import { fetchAndStoreSongs, fetchGig } from './utils';
 
-// export const SetList: React.FC<TGig> = ({ location, date, setList }) => {
 const Setlist = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [gig, setGig] = useState<TGig | undefined>(undefined);
+  const [setlist, setSetlist] = useState<TSetlist>([]);
+  const [songs, setSongs] = useState<TSong[]>([]);
+  
 
-  // TODO: at the moment setlist is stored in local storage and
-  const gig: TGig | undefined = gigs.find((gigFromList: TGig) => gigFromList.id === id);
-  const setlist: TSetlist = getSetlist();
+  useEffect(() => { 
+    const fetchAndSetData = async () => {
+      console.log('fetching data')
+      try {
+        const getGig = await fetchGig(id!);
+        if (getGig) {
+          setGig(getGig)
+          storeSetlist(flattenSetlist(getGig.setlist));
+          setSetlist(flattenSetlist(getGig.setlist));
+        }
+        return;
+      } catch (error) {
+        console.error('Error fetching gig data', error);
+      }
+    }
+
+    fetchAndSetData();
+  }, [id]);
+
+
   useEffect(() => {
     if (buttonsRef.current[0]) {
       buttonsRef.current[0].focus();
@@ -34,6 +53,17 @@ const Setlist = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log('getting songs');
+    const getAndStoreSongs = async () => {
+      const songIds = setlist.filter((songId) => songId !== BREAK);
+      const getSongs = await fetchAndStoreSongs(songIds);
+      setSongs(getSongs);
+    };
+
+    getAndStoreSongs();
+  }, [setlist]);
+
   const handleKeyDown = (event: { key: string }) => {
     if (isLoaded) {
       const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
@@ -45,7 +75,7 @@ const Setlist = () => {
       } else if (event.key === footswitch.rightShort) {
         if (currentIndex < buttonsRef.current.length - 1) {
           buttonsRef.current[currentIndex + 1].focus();
-          buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          buttonsRef.current[currentIndex + 1].scrollIntoView({behavior: 'smooth', block: 'center'});
         } else if (endOfListRef.current) {
           endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
         }
@@ -54,7 +84,7 @@ const Setlist = () => {
   };
 
   const endOfListRef = useRef<HTMLDivElement | null>(null);
-
+  
   return (
     <div>
       <div onKeyDown={handleKeyDown} tabIndex={0}>
@@ -79,32 +109,29 @@ const Setlist = () => {
                 </li>
               );
 
-            const song: TSong | undefined = songs.find((song) => song.id === songId);
+            const song: TSong | undefined = songs.find((song) => Number(song.id) === songId);
+            console.log(songs.find((song) => song.id === songId));
             if (!song) {
               return (
                 <li key={index}>
-                  <p className="text-bj-red">
-                    <em>SONG NOT FOUND!!</em>
-                  </p>
+                  <span>Song not found</span>
                 </li>
               );
             }
 
+            
             return (
               <li key={index}>
                 <SongListButton
                   ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}
-                  classes=""
-                  onclick={() => Navigate(`/song/${index}`)}
+                  onclick={() => Navigate(`/song/${song.id}`)}
                   title={song.title}
-                  version={song.version}
                 />
               </li>
             );
           })}
-
-          <div ref={endOfListRef} />
         </ul>
+        <div ref={endOfListRef}></div>
       </div>
       <NavIndicator leftShort="up" centreShort="point" rightShort="down" />
     </div>
