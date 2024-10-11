@@ -1,11 +1,10 @@
-import { getSetlist } from '@context/index';
+import { getSetlist, getSongs } from '@context/index';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Screensaver } from '..';
-import songs from '../../../data/songs.json';
 import { ACTIVEKEYS, BREAK } from '../../const.ts';
-import { TSong, TSongWithDuration } from '../../types';
+import { TSong } from '../../types';
 import LyricPage from './LyricPage.tsx';
 import TitlePage from './TitlePage.tsx';
 import { ManageInteraction } from './interaction';
@@ -18,10 +17,15 @@ const Song = () => {
   const setlistIndex: number = parseInt(id!);
 
   const [currentPage, setCurrentPage] = useState<number>(0);
+  console.log("🚀 ---------------------------------------🚀");
+  console.log("🚀 => Song => currentPage:", currentPage);
+  console.log("🚀 ---------------------------------------🚀");
   const [timerHalted, setTimerHalted] = useState<boolean>(false);
-  const song: TSong | TSongWithDuration | undefined = songs.find(
-    (song: TSong | TSongWithDuration) => song.id === setlist[setlistIndex],
-  );
+  const song: TSong | undefined = 
+  getSongs().filter((song) => Number(song.id) === setlist[setlistIndex])[0];
+  console.log("🚀 -------------------------🚀");
+  console.log("🚀 => Song => song:", song);
+  console.log("🚀 -------------------------🚀");
   const duration = song?.pages[currentPage - 1]?.duration || 0;
 
   useEffect(() => {
@@ -38,8 +42,7 @@ const Song = () => {
           timerHalted,
           setTimerHalted,
           songPages:
-            songs.find((song: TSong | TSongWithDuration) => song.id === setlist[setlistIndex] || null)?.pages.length ||
-            0,
+            song?.pages.length || 0,
           Navigate,
         });
       }
@@ -72,6 +75,7 @@ const Song = () => {
           scale={song.scale}
           setup={song.setup}
           tempo={song.tempo}
+          notes={song.notes}
           timeSignature={song.timeSignature}
           isLastSong={setlistIndex === setlist.length - 1}
         />

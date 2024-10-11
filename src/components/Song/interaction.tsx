@@ -41,7 +41,6 @@ export const ManageInteraction: React.FC<TProps> = ({
 
   // BREAK
   if (showingScreensaver) {
-    console.log('screensaver');
     switch (footswitchInput) {
       case footswitch.leftShort:
         // Handle left short press
@@ -71,7 +70,6 @@ export const ManageInteraction: React.FC<TProps> = ({
 
   // TITLE PAGE
   if (!currentPage) {
-    console.log('title page');
     switch (footswitchInput) {
       case footswitch.leftShort:
         // Handle left short press
@@ -103,7 +101,6 @@ export const ManageInteraction: React.FC<TProps> = ({
   }
   // LYRIC PAGE
   if (!isLastPage && currentPage) {
-    console.log('lyric page');
     switch (footswitchInput) {
       case footswitch.leftShort:
         // Handle left short press
@@ -150,7 +147,6 @@ export const ManageInteraction: React.FC<TProps> = ({
   }
   // LAST LYRIC PAGE
   if (isLastPage) {
-    console.log('last page');
     switch (footswitchInput) {
       case footswitch.leftShort:
         // Handle left short press

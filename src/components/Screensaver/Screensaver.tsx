@@ -14,8 +14,8 @@ type TImage = {
 
 const Screensaver: React.FC<TProps> = ({ isStart, isLastSong }) => {
   const images: TImage[] = [
-    { src: '/BluesPrompter_logo_new4.png', alt: 'BluePrompter', text: '' },
-    // { src: '/osp_logo.svg', alt: 'openSongPrompt. Your songs. On stage. No worries', text: '' },
+    { src: '/blues-jab-logo.png', alt: 'Blues Jab - Boy Band of the Blues', text: '' },
+    // { src: '/BluesPrompter_logo_new4.png', alt: 'BluesPrompte. Your songs. On stage. No worries', text: '' },
   ];
 
   const [currentImage, setCurrentImage] = useState(0);

@@ -1,3 +1,6 @@
+import {BREAK} from "./const";
+import {TBreak, TSetlist} from "./types";
+
 const gemaRegex = '^\\d{1,8}-\\d{3}$'
 
 export const hasMatchingBrackets = (str: string): boolean => {
@@ -28,4 +31,8 @@ export const validateGemaWerknummer = (gemaWerknummer: string): boolean => {
 
 export const validateDuration = (minutes: number, seconds: number): boolean => {
   return minutes >= 0 && seconds >= 0 && seconds < 60;
-}
+};
+
+export const flattenSetlist = (setlist: number[][]): TSetlist => {
+  return setlist.flatMap((subArray) => [BREAK as TBreak, ...subArray.map(Number)]).concat([BREAK as TBreak]);
+};

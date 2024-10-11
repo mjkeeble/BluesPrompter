@@ -45,7 +45,7 @@ const CountIn: React.FC<TProps> = ({ tempo, timeSignature }) => {
           key={index}
           className={
             index === activesymbol
-              ? 'transition-all duration-300 grow font-semibold text-countin bg-bj-green-mid text-black'
+              ? 'transition-all duration-300 grow font-semibold text-countin bg-bj-green-light text-black'
               : 'transition-all grow font-semibold text-countin text-bj-white'
           }
         >

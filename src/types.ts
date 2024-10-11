@@ -20,14 +20,10 @@ export type TSong = {
   timeSignature?: string;
   setup?: string;
   configLyricPageMode?: TMode;
-  configChordPaneSize?: TChordPaneSize;
+  configChordPaneSize?: number;
   pages: TLyricPage[];
   notes?: string;
-};
-export type TSongWithDuration = TSong & {
-  durationMinutes: number;
-  durationSeconds: number;
-};
+} & ({ durationMinutes?: never; durationSeconds?: never } | { durationMinutes: number; durationSeconds: number });
 
 export type TLyricPage = {
   chords: string[][];
@@ -45,17 +41,15 @@ export type TBreak = typeof BREAK;
 
 export type TSetlist = (number | TBreak)[];
 
-export type TRepertoireList = string[];
-
 export type TInput = (typeof ACTIVEKEYS)[number] | null;
 
 export type TMode = (typeof LYRIC_PAGE_MODES)[number];
 
-type TChordPaneSize = 3 | 4 | 5 | 6 | 7;
+// export type TChordPaneSize = 2 | 3 | 4 | 5 | 6 | 7;
 
 export type TConfig = {
   lyricPageMode?: TMode; // display mode for lyrics page
-  chordPaneSize?: TChordPaneSize; // portion of screen for chords (x/10)
+  chordPaneSize?: number; // portion of screen for chords (x/10)
   portrait: boolean; // screen orientation
   chordFontSize?: (typeof TEXT_SIZES)[number]; // size of chord text
   lyricMinFontSize: number; // min size of lyric text
@@ -67,15 +61,16 @@ export type symbolKeys =
   | 'backwardFast'
   | 'backwardStep'
   | 'down'
-  | 'forward'
-  | 'forwardFast'
+  | 'eject'
   | 'forwardStep'
   | 'pause'
   | 'point'
   | 'play'
-  | 'stop'
+  | 'reload'
+  | 'skipDown'
+  | 'skipUp'
   | 'up'
-  | undefined;
+  | 'x';
 
 export type SongAction =
   | { type: 'SET_TITLE'; payload: string }

@@ -1,27 +1,57 @@
-import { getSetlist } from '@context/index';
+import { storeSetlist } from '@context/index';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '..';
-import gigs from '../../../data/gigs.json';
-import songs from '../../../data/songs.json';
 import { BREAK, footswitch } from '../../const';
-import { TBreak, TGig, TSetlist, TSong } from '../../types';
-import { displayDate } from '../../utils';
+import { TBreak, TGig, TSetlist } from '../../types';
+import { displayDate, flattenSetlist } from '../../utils';
+import { fetchAndStoreSongs, fetchGig } from './utils';
 
-// export const SetList: React.FC<TGig> = ({ location, date, setList }) => {
+type TSongData = {
+  id: number;
+  title: string;
+  version?: string;
+};
+
 const Setlist = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [gig, setGig] = useState<TGig | undefined>(undefined);
+  const [setlist, setSetlist] = useState<TSetlist>([]);
+  const [songs, setSongs] = useState<TSongData[]>([]);
 
-  // TODO: at the moment setlist is stored in local storage and
-  const gig: TGig | undefined = gigs.find((gigFromList: TGig) => gigFromList.id === id);
-  const setlist: TSetlist = getSetlist();
   useEffect(() => {
-    if (buttonsRef.current[0]) {
-      buttonsRef.current[0].focus();
-    }
+    const fetchAndSetData = async () => {
+      try {
+        const getGig = await fetchGig(id!);
+        if (getGig) {
+          setGig(getGig);
+          storeSetlist(flattenSetlist(getGig.setlist));
+          setSetlist(flattenSetlist(getGig.setlist));
+        }
+        return;
+      } catch (error) {
+        console.error('Error fetching gig data', error);
+      }
+    };
+
+    fetchAndSetData();
+  }, [id]);
+
+  useEffect(() => {
+    const focusFirstButton = () => {
+      if (buttonsRef.current[0]) {
+        buttonsRef.current[0].focus();
+      }
+    };
+
+    // Use a timeout to ensure the elements are rendered
+    const timerId = setTimeout(focusFirstButton, 500);
+
+    // Cleanup the timeout
+    return () => clearTimeout(timerId);
   }, []);
 
   useEffect(() => {
@@ -33,6 +63,22 @@ const Setlist = () => {
       clearTimeout(timerId);
     };
   }, []);
+
+  useEffect(() => {
+    const getAndStoreSongs = async () => {
+      const songIds = setlist.filter((songId) => songId !== BREAK);
+      const getSongs = await fetchAndStoreSongs(songIds);
+      const extractedSongs = getSongs.map((song) => ({
+        id: song.id,
+        title: song.title,
+        version: song.version,
+      }));
+
+      setSongs(extractedSongs);
+    };
+
+    getAndStoreSongs();
+  }, [setlist]);
 
   const handleKeyDown = (event: { key: string }) => {
     if (isLoaded) {
@@ -79,13 +125,12 @@ const Setlist = () => {
                 </li>
               );
 
-            const song: TSong | undefined = songs.find((song) => song.id === songId);
+            const song: TSongData | undefined = songs.find((song) => Number(song.id) === songId);
+
             if (!song) {
               return (
                 <li key={index}>
-                  <p className="text-bj-red">
-                    <em>SONG NOT FOUND!!</em>
-                  </p>
+                  <span>Song not found</span>
                 </li>
               );
             }
@@ -94,17 +139,14 @@ const Setlist = () => {
               <li key={index}>
                 <SongListButton
                   ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}
-                  classes=""
                   onclick={() => Navigate(`/song/${index}`)}
                   title={song.title}
-                  version={song.version}
                 />
               </li>
             );
           })}
-
-          <div ref={endOfListRef} />
         </ul>
+        <div ref={endOfListRef}></div>
       </div>
       <NavIndicator leftShort="up" centreShort="point" rightShort="down" />
     </div>

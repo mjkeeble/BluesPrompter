@@ -46,7 +46,7 @@ export default {
       },
       fontSize: {
         lyric: '4rem',
-        countin: '12rem',
+        countin: '10rem',
       },
     },
   },

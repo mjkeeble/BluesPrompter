@@ -10,7 +10,7 @@ export const getScreenSplit = (
   }
   if (!pageHasChords) return 1;
 
-  if (!pageHasLyrics) return 10;
+  if (!pageHasLyrics) return Number(config.chordPaneSize) || 8;
 
   return Number(screenSplitSettingForSong || config.chordPaneSize || 6);
 };
