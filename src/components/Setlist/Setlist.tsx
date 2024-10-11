@@ -124,7 +124,7 @@ const Setlist = () => {
               <li key={index}>
                 <SongListButton
                   ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}
-                  onclick={() => Navigate(`/song/${song.id}`)}
+                  onclick={() => Navigate(`/song/${index}`)}
                   title={song.title}
                 />
               </li>
