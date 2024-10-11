@@ -7,6 +7,12 @@ import { TBreak, TGig, TSetlist, TSong } from '../../types';
 import { displayDate, flattenSetlist } from '../../utils';
 import { fetchAndStoreSongs, fetchGig } from './utils';
 
+type TSongData = {
+  id: number;
+  title: string;
+  version?: string;
+};
+
 const Setlist = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
@@ -14,16 +20,19 @@ const Setlist = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [gig, setGig] = useState<TGig | undefined>(undefined);
   const [setlist, setSetlist] = useState<TSetlist>([]);
-  const [songs, setSongs] = useState<TSong[]>([]);
-  
+  const [songs, setSongs] = useState<TSongData[]>([]);
 
-  useEffect(() => { 
+  useEffect(() => {
+    console.log(songs);
+  }, [songs]);
+
+  useEffect(() => {
     const fetchAndSetData = async () => {
-      console.log('fetching data')
+      console.log('fetching data');
       try {
         const getGig = await fetchGig(id!);
         if (getGig) {
-          setGig(getGig)
+          setGig(getGig);
           storeSetlist(flattenSetlist(getGig.setlist));
           setSetlist(flattenSetlist(getGig.setlist));
         }
@@ -31,16 +40,23 @@ const Setlist = () => {
       } catch (error) {
         console.error('Error fetching gig data', error);
       }
-    }
+    };
 
     fetchAndSetData();
   }, [id]);
 
-
   useEffect(() => {
-    if (buttonsRef.current[0]) {
-      buttonsRef.current[0].focus();
-    }
+    const focusFirstButton = () => {
+      if (buttonsRef.current[0]) {
+        buttonsRef.current[0].focus();
+      }
+    };
+
+    // Use a timeout to ensure the elements are rendered
+    const timerId = setTimeout(focusFirstButton, 500);
+
+    // Cleanup the timeout
+    return () => clearTimeout(timerId);
   }, []);
 
   useEffect(() => {
@@ -58,7 +74,13 @@ const Setlist = () => {
     const getAndStoreSongs = async () => {
       const songIds = setlist.filter((songId) => songId !== BREAK);
       const getSongs = await fetchAndStoreSongs(songIds);
-      setSongs(getSongs);
+      const extractedSongs = getSongs.map((song) => ({
+        id: song.id,
+        title: song.title,
+        version: song.version,
+      }));
+
+      setSongs(extractedSongs);
     };
 
     getAndStoreSongs();
@@ -75,7 +97,7 @@ const Setlist = () => {
       } else if (event.key === footswitch.rightShort) {
         if (currentIndex < buttonsRef.current.length - 1) {
           buttonsRef.current[currentIndex + 1].focus();
-          buttonsRef.current[currentIndex + 1].scrollIntoView({behavior: 'smooth', block: 'center'});
+          buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else if (endOfListRef.current) {
           endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
         }
@@ -84,7 +106,7 @@ const Setlist = () => {
   };
 
   const endOfListRef = useRef<HTMLDivElement | null>(null);
-  
+
   return (
     <div>
       <div onKeyDown={handleKeyDown} tabIndex={0}>
@@ -110,7 +132,7 @@ const Setlist = () => {
               );
 
             const song: TSong | undefined = songs.find((song) => Number(song.id) === songId);
-            console.log(songs.find((song) => song.id === songId));
+
             if (!song) {
               return (
                 <li key={index}>
@@ -119,7 +141,6 @@ const Setlist = () => {
               );
             }
 
-            
             return (
               <li key={index}>
                 <SongListButton
