@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '..';
 import { BREAK, footswitch } from '../../const';
-import { TBreak, TGig, TSetlist, TSong } from '../../types';
+import { TBreak, TGig, TSetlist } from '../../types';
 import { displayDate, flattenSetlist } from '../../utils';
 import { fetchAndStoreSongs, fetchGig } from './utils';
 
@@ -23,12 +23,7 @@ const Setlist = () => {
   const [songs, setSongs] = useState<TSongData[]>([]);
 
   useEffect(() => {
-    console.log(songs);
-  }, [songs]);
-
-  useEffect(() => {
     const fetchAndSetData = async () => {
-      console.log('fetching data');
       try {
         const getGig = await fetchGig(id!);
         if (getGig) {
@@ -70,7 +65,6 @@ const Setlist = () => {
   }, []);
 
   useEffect(() => {
-    console.log('getting songs');
     const getAndStoreSongs = async () => {
       const songIds = setlist.filter((songId) => songId !== BREAK);
       const getSongs = await fetchAndStoreSongs(songIds);
@@ -131,7 +125,7 @@ const Setlist = () => {
                 </li>
               );
 
-            const song: TSong | undefined = songs.find((song) => Number(song.id) === songId);
+            const song: TSongData | undefined = songs.find((song) => Number(song.id) === songId);
 
             if (!song) {
               return (
