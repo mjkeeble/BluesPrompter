@@ -23,12 +23,7 @@ export type TSong = {
   configChordPaneSize?: number;
   pages: TLyricPage[];
   notes?: string;
-};
-
-export type TSongWithDuration = TSong & {
-  durationMinutes: number;
-  durationSeconds: number;
-};
+} & ({ durationMinutes?: never; durationSeconds?: never } | { durationMinutes: number; durationSeconds: number });
 
 export type TLyricPage = {
   chords: string[][];
@@ -45,7 +40,6 @@ export type TAction = {
 export type TBreak = typeof BREAK;
 
 export type TSetlist = (number | TBreak)[];
-
 
 export type TInput = (typeof ACTIVEKEYS)[number] | null;
 
