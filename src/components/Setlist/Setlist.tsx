@@ -5,9 +5,9 @@ import { NavIndicator, SongListButton } from '..';
 import { BREAK, footswitch } from '../../const';
 import { TBreak, TGig, TSetlist } from '../../types';
 import { displayDate, flattenSetlist } from '../../utils';
-import { fetchAndStoreSongs, fetchGig } from './utils';
+import { fetchGig, fetchSongs } from './utils';
 
-type TSongData = {
+export type TSongData = {
   id: number;
   title: string;
   version?: string;
@@ -67,7 +67,7 @@ const Setlist = () => {
   useEffect(() => {
     const getAndStoreSongs = async () => {
       const songIds = setlist.filter((songId) => songId !== BREAK);
-      const getSongs = await fetchAndStoreSongs(songIds);
+      const getSongs = await fetchSongs(songIds);
       const extractedSongs = getSongs.map((song) => ({
         id: song.id,
         title: song.title,

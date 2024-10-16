@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TConfig } from 'src/types';
+// import { TConfig } from 'src/types';
 import config from '../../../data/config.json';
-import { MAX_LYRIC_FONT_SIZE } from '../../const';
+import { MAX_LYRIC_FONT_SIZE, FontSizeKey } from '../../const';
 
 type TProps = {
   lyrics: string[];
 };
 
+
+
 // Usage:
 const Lyrics: React.FC<TProps> = ({ lyrics }) => {
-  const { lyricMinFontSize, lyricMaxFontSize } = config as TConfig;
+  const { lyricMinFontSize, lyricMaxFontSize } = config as { lyricMinFontSize: number; lyricMaxFontSize: FontSizeKey };
   const containerRef = useRef<HTMLDivElement>(null);
   const [fontSize, setFontSize] = useState<number>(MAX_LYRIC_FONT_SIZE[lyricMaxFontSize].size); // Initial font size
   const [containerReady, setContainerReady] = useState<boolean>(false); // State to track if container is ready

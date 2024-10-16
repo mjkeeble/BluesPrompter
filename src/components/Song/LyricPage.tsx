@@ -3,7 +3,7 @@ import Chords from './Chords';
 import Lyrics from './Lyrics';
 import ProgressBar from './ProgressBar';
 import PageTitle from './SectionTitle';
-import { getScreenSplit } from './utils';
+import { fetchScreenSplit } from './utils';
 
 type TProps = {
   song: TSong;
@@ -21,11 +21,7 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
 
   const pageHasChords: boolean = !!currentPageData.chords.length;
 
-  const screenSplit = getScreenSplit(
-    song.configChordPaneSize,
-    pageHasChords,
-    !!currentPageData.lyrics.length,
-  );
+  const screenSplit = fetchScreenSplit(song.configChordPaneSize, pageHasChords, !!currentPageData.lyrics.length);
 
   return (
     <div className="flex h-screen flex-col overflow-y-hidden">
@@ -40,25 +36,25 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
           finalPage={song.pages.length === currentPage}
         />
       ) : null}
-        {pageHasChords ? null : (
-          <PageTitle
-            currentPage={currentPage}
-            title={currentPageData.section}
-            totalPages={song.pages.length}
-            pageHasChords={pageHasChords}
-          />
-        )}
+      {pageHasChords ? null : (
+        <PageTitle
+          currentPage={currentPage}
+          title={currentPageData.section}
+          totalPages={song.pages.length}
+          pageHasChords={pageHasChords}
+        />
+      )}
 
       <div className="grid flex-1 grid-cols-10 divide-x overflow-y-auto">
         <div className={`col-span-${screenSplit} p-4`}>
-        {pageHasChords ? (
-          <PageTitle
-            currentPage={currentPage}
-            title={currentPageData.section}
-            totalPages={song.pages.length}
-            pageHasChords={pageHasChords}
-          />
-        ) : null}
+          {pageHasChords ? (
+            <PageTitle
+              currentPage={currentPage}
+              title={currentPageData.section}
+              totalPages={song.pages.length}
+              pageHasChords={pageHasChords}
+            />
+          ) : null}
           <Chords
             chords={currentPageData.chords}
             isLastPage={currentPage === song.pages.length}

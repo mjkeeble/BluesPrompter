@@ -1,4 +1,4 @@
-import { getSetlist, getSongs } from '@context/index';
+import { getSetlist } from '@context/index';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,24 +9,39 @@ import LyricPage from './LyricPage.tsx';
 import TitlePage from './TitlePage.tsx';
 import { ManageInteraction } from './interaction';
 
+const fetchSong = async (id: number) => {
+  try {
+    const response: TSong = await(await fetch(`http://localhost:3000/songs/${id}`)).json();
+    return response;
+  } catch (error) {
+    console.error('Error fetching song', error);
+    return null;
+  }
+}
+
 const Song = () => {
   const Navigate = useNavigate();
-  const setlist = getSetlist();
-
   const { id } = useParams();
-  const setlistIndex: number = parseInt(id!);
-
+  const setlist= getSetlist();
+  const [setlistIndex] = useState<number>(parseInt(id!));
+  const [song, setSong] = useState<TSong | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  console.log("🚀 ---------------------------------------🚀");
-  console.log("🚀 => Song => currentPage:", currentPage);
-  console.log("🚀 ---------------------------------------🚀");
   const [timerHalted, setTimerHalted] = useState<boolean>(false);
-  const song: TSong | undefined = 
-  getSongs().filter((song) => Number(song.id) === setlist[setlistIndex])[0];
-  console.log("🚀 -------------------------🚀");
-  console.log("🚀 => Song => song:", song);
-  console.log("🚀 -------------------------🚀");
-  const duration = song?.pages[currentPage - 1]?.duration || 0;
+  const duration = song?.pages?.[currentPage - 1]?.duration || 0;
+
+useEffect(() => {
+  // Only update the setlist if necessary
+   const searchIndex = setlist[setlistIndex];
+  if (searchIndex !== BREAK) {
+    const getAndSaveSong = async () => {
+      const fetchedSong = await fetchSong(searchIndex);
+      setSong(fetchedSong);
+    };
+
+
+    getAndSaveSong();
+  }
+}, [setlistIndex, setlist]);
 
   useEffect(() => {
     const handleFootswitchInput = (event: KeyboardEvent) => {
@@ -41,8 +56,7 @@ const Song = () => {
           hasTimer: !!duration && !!song?.pages.length && currentPage < song?.pages.length,
           timerHalted,
           setTimerHalted,
-          songPages:
-            song?.pages.length || 0,
+          songPages: song?.pages.length || 0,
           Navigate,
         });
       }
@@ -59,7 +73,7 @@ const Song = () => {
   if (!setlistIndex || setlist[setlistIndex] === BREAK)
     return <Screensaver isStart={!setlistIndex} isLastSong={setlistIndex === setlist.length - 1} />;
 
-  if (!song) {
+  if (setlist[setlistIndex] !== BREAK && !song) {
     return (
       <>
         <h1>No song found!</h1>

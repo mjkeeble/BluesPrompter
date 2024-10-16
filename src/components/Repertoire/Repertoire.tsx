@@ -1,11 +1,10 @@
-import { storeSetlist, storeSongs } from '@context/index';
+import { storeSetlist } from '@context/index';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '..';
 import { BREAK, footswitch } from '../../const';
-import {TSong} from '../../types';
+import { TSong } from '../../types';
 import { fetchSongs } from './utils';
-import {fetchAndStoreSongs} from '@components/Setlist/utils';
 
 const Repertoire = () => {
   const navigate = useNavigate();
@@ -15,20 +14,18 @@ const Repertoire = () => {
 
   // TODO: at the moment setlist is stored in local storage and
 
-
   useEffect(() => {
     const getAndSetSongs = async () => {
       const songList = await fetchSongs();
-      if(songList) {
+      if (songList) {
         setRepertoireList(songList);
       }
-    }
-    
+    };
+
     storeSetlist([0]);
-    storeSongs([]);
-    getAndSetSongs()
-  }, [])
-  
+    getAndSetSongs();
+  }, []);
+
   useEffect(() => {
     const focusFirstButton = () => {
       if (buttonsRef.current[0]) {
@@ -86,19 +83,19 @@ const Repertoire = () => {
         case footswitch.leftLong:
           if (currentIndex > 10) {
             buttonsRef.current[currentIndex - 10].focus();
-            buttonsRef.current[currentIndex - 10].scrollIntoView({behavior: 'smooth', block: 'center'});
-          } else { 
+            buttonsRef.current[currentIndex - 10].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
             buttonsRef.current[0].focus();
-            buttonsRef.current[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+            buttonsRef.current[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
           break;
         case footswitch.rightLong:
           if (currentIndex + 10 < buttonsRef.current.length) {
             buttonsRef.current[currentIndex + 10].focus();
-            buttonsRef.current[currentIndex + 10].scrollIntoView({behavior: 'smooth', block: 'center'});
+            buttonsRef.current[currentIndex + 10].scrollIntoView({ behavior: 'smooth', block: 'center' });
           } else {
             buttonsRef.current[buttonsRef.current.length - 1].focus();
-            buttonsRef.current[buttonsRef.current.length - 1].scrollIntoView({behavior: 'smooth', block: 'center'});
+            buttonsRef.current[buttonsRef.current.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
           break;
         default:
@@ -111,10 +108,9 @@ const Repertoire = () => {
     let storageUpdateDebounce: NodeJS.Timeout | null = null;
 
     storeSetlist([BREAK, Number(id)]);
-    fetchAndStoreSongs([id]);
+    fetchSongs();
     if (storageUpdateDebounce) clearTimeout(storageUpdateDebounce);
     storageUpdateDebounce = setTimeout(() => {
-
       navigate(`/song/1`);
     }, 500);
   };
@@ -125,8 +121,6 @@ const Repertoire = () => {
         <h1 className="my-5 font-fredericka text-7xl text-bj-white">Repertoire</h1>
         <ul className="mb-20 mt-8">
           {repertoireList.map((song: TSong, index) => {
-            
-
             return (
               <li key={index}>
                 <SongListButton
