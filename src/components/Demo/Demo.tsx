@@ -10,8 +10,8 @@ const Demo = () => {
         </div>
       </div>
       <div className="col-span-2 flex h-screen flex-col items-start  justify-center">
-        <h1 className="w-full pb-10 text-center">Welcome to the openSongPrompt demo!</h1>
-        <p className="text-2xl">openSongPrompt is designed to be operated with a footswitch.</p>
+        <h1 className="w-full pb-10 text-center">Welcome to the Blues Prompter demo!</h1>
+        <p className="text-2xl">Blues Prompter is designed to be operated with a footswitch.</p>
         <p className="text-2xl">Use the following keys to emulate the footswitch actions in this demo:</p>
         <div className="grid-row grid w-full grid-cols-4 grid-rows-3 text-3xl">
           <div className="col-span-1 pb-4 pt-4"></div>

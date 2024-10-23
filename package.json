@@ -1,5 +1,5 @@
 {
-  "name": "opensongprompt",
+  "name": "bluesPrompter",
   "private": true,
   "description": "Stage teleprompter application for musicians",
   "keywords": [
@@ -10,12 +10,12 @@
     "lyrics",
     "lyrics display",
     "songPrompter",
-    "openSongPrompt"
+    "bluesPrompter"
   ],
   "license": "MIT",
-  "homepage": "https://mjkeeble.github.io/opensongprompt",
-  "repository": "github:mjkeeble/opensongprompt",
-  "bugs": "https://github.com/mjkeeble/opensongprompt/issues",
+  "homepage": "",
+  "repository": "github:mjkeeble/BluesPrompter",
+  "bugs": "https://github.com/mjkeeble/BluesPrompter/issues",
   "version": "0.0.1",
   "type": "module",
   "engines": {

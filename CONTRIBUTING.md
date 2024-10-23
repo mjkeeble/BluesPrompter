@@ -1,8 +1,8 @@
- # Contributing to openSongPrompt
+ # Contributing to Blues Prompter
 
  **This document is in draft**
 
-Welcome to openSongPrompt!
+Welcome to Blues Prompter!
 
 👍🎉 First off, thanks for taking the time to contribute! 🎉👍
 

@@ -26,7 +26,7 @@ As I said, this was written for personal use and the formating is optimised for 
 
 ## Navigation
 
-Navigation options are shown on the screen. In my setup I have a footswitch controlled by an [ arduino ](url:'https://github.com/mjkeeble/openSongPrompt/blob/main/footswitch/footswitch.ino') with three momentary switches that can be pressed or pressed and held. For keyboard navigation these are mapped as follows:
+Navigation options are shown on the screen. In my setup I have a footswitch controlled by an [ arduino ](url:'https://github.com/mjkeeble/BluesPrompter/blob/main/hardware/footswitch.ino') with three momentary switches that can be pressed or pressed and held. For keyboard navigation these are mapped as follows:
 - left footswitch: short press - 'u', long press - 'j'
 - centre footswitch: short press - 'i', long press - 'k'
 - right footswitch: short press - 'o', long press - 'l'

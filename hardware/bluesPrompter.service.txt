@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=mark
 ExecStartPre=/[userName]/bin/xinit
-ExecStart=/bin/bash -c 'cd /home/[userName]/Projects/openSongPrompt && npm run dev'
+ExecStart=/bin/bash -c 'cd /home/[userName]/Projects/BluesPrompter && npm run dev'
 ExecStartPost=/[userName]/bin/firefox http://localhost:5173
 
 [Install]
