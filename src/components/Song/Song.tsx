@@ -1,47 +1,45 @@
-import { getSetlist } from '@context/index';
-
-import { useEffect, useState } from 'react';
+import { Screensaver } from '@components/index.ts';
+import { getSetlist } from '@context/setlistStorage.ts';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Screensaver } from '..';
 import { ACTIVEKEYS, BREAK } from '../../const.ts';
 import { TSong } from '../../types';
 import LyricPage from './LyricPage.tsx';
 import TitlePage from './TitlePage.tsx';
 import { ManageInteraction } from './interaction';
-
-const fetchSong = async (id: number) => {
-  try {
-    const response: TSong = await(await fetch(`http://localhost:3000/songs/${id}`)).json();
-    return response;
-  } catch (error) {
-    console.error('Error fetching song', error);
-    return null;
-  }
-}
+import { fetchSong } from './utils.ts';
 
 const Song = () => {
   const Navigate = useNavigate();
   const { id } = useParams();
-  const setlist= getSetlist();
-  const [setlistIndex] = useState<number>(parseInt(id!));
-  const [song, setSong] = useState<TSong | null>(null);
+  const setlist = useMemo(() => getSetlist(), []);
+  const [setlistIndex, setSetlistIndex] = useState<number>(parseInt(id!));
+  const [song, setSong] = useState<TSong>();
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [timerHalted, setTimerHalted] = useState<boolean>(false);
-  const duration = song?.pages?.[currentPage - 1]?.duration || 0;
+  const [timerIsHalted, setTimerIsHalted] = useState<boolean>(false);
+  const duration = song?.pages[currentPage - 1]?.duration || 0;
 
-useEffect(() => {
-  // Only update the setlist if necessary
-   const searchIndex = setlist[setlistIndex];
-  if (searchIndex !== BREAK) {
+  useEffect(() => {
+    const newIndex = parseInt(id!);
+    setSetlistIndex(newIndex);
+  }, [id]);
+
+  useEffect(() => {
+    const searchIndex = setlist[setlistIndex];
+
     const getAndSaveSong = async () => {
-      const fetchedSong = await fetchSong(searchIndex);
-      setSong(fetchedSong);
+      if (searchIndex !== BREAK && (!song || song.id != searchIndex)) {
+        const fetchedSong = await fetchSong(searchIndex);
+        if (!fetchedSong) {
+          console.error('No song found');
+          return;
+        }
+
+        setSong(fetchedSong);
+      }
     };
-
-
     getAndSaveSong();
-  }
-}, [setlistIndex, setlist]);
+  }, [setlistIndex, setlist, song]);
 
   useEffect(() => {
     const handleFootswitchInput = (event: KeyboardEvent) => {
@@ -53,9 +51,9 @@ useEffect(() => {
           totalSongs: setlist.length,
           currentPage,
           setCurrentPage,
-          hasTimer: !!duration && !!song?.pages.length && currentPage < song?.pages.length,
-          timerHalted,
-          setTimerHalted,
+          hasTimer: !!duration && !!song?.pages.length && currentPage < song.pages.length,
+          timerHalted: timerIsHalted,
+          setTimerHalted: setTimerIsHalted,
           songPages: song?.pages.length || 0,
           Navigate,
         });
@@ -67,13 +65,12 @@ useEffect(() => {
     return () => {
       document.removeEventListener('keydown', handleFootswitchInput);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, setlistIndex, timerHalted]);
+  }, [setlistIndex, setlist, currentPage, duration, timerIsHalted, song, Navigate]);
 
   if (!setlistIndex || setlist[setlistIndex] === BREAK)
     return <Screensaver isStart={!setlistIndex} isLastSong={setlistIndex === setlist.length - 1} />;
 
-  if (setlist[setlistIndex] !== BREAK && !song) {
+  if (!song) {
     return (
       <>
         <h1>No song found!</h1>
@@ -83,7 +80,7 @@ useEffect(() => {
   }
   return (
     <div className="w-full overflow-x-hidden">
-      {!currentPage ? (
+      {song && !currentPage ? (
         <TitlePage
           title={song.title}
           scale={song.scale}
@@ -93,9 +90,10 @@ useEffect(() => {
           timeSignature={song.timeSignature}
           isLastSong={setlistIndex === setlist.length - 1}
         />
-      ) : (
-        <LyricPage song={song} currentPage={currentPage} setCurrentPage={setCurrentPage} timerHalted={timerHalted} />
-      )}
+      ) : null}
+      {song && currentPage ? (
+        <LyricPage song={song} currentPage={currentPage} setCurrentPage={setCurrentPage} timerHalted={timerIsHalted} />
+      ) : null}
     </div>
   );
 };

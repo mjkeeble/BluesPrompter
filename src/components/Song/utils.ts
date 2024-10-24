@@ -1,4 +1,4 @@
-import { TSong } from 'src/types';
+import {TSong} from 'src/types';
 import config from '../../../data/config.json';
 
 export const fetchScreenSplit = (
@@ -16,11 +16,13 @@ export const fetchScreenSplit = (
   return Number(screenSplitSettingForSong || config.chordPaneSize || 6);
 };
 
-export const fetchSong = (id: number): Promise<TSong | undefined> => {
-  console.log(`fetching song ${id}`);
-  return fetch(`http://localhost:3000/songs/${id}`)
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error('Error fetching song', error);
-    });
+
+export const fetchSong = async (id: number) => {
+  try {
+    const response: TSong = await (await fetch(`http://localhost:3000/songs/${id}`)).json();
+    return response;
+  } catch (error) {
+    console.error('Error fetching song', error);
+    return null;
+  }
 };

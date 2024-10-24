@@ -17,7 +17,7 @@ type TProps = {
   Navigate: ReturnType<typeof useNavigate>;
 };
 
-// This component returns null. It is only responsible for handling user commands
+// This component returns null (i.e.no visible component). It is only responsible for handling user commands
 
 export const ManageInteraction: React.FC<TProps> = ({
   footswitchInput,

@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavIndicator} from '..';
+// TODO: import config from JSON-server
 import config from '../../../data/config.json';
 
 type TProps = {
