@@ -19,16 +19,18 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
     return <div>Error: Page data not found</div>;
   }
 
+  const pageHasProgressBar: boolean = !!currentPageData && !!song.tempo && !!song.timeSignature &&!!currentPageData.duration;
   const pageHasChords: boolean = !!currentPageData.chords.length;
+  const lyricBoxHeight = pageHasProgressBar? '100vh - 84px' : '100vh - 60px';
 
   const screenSplit = fetchScreenSplit(song.configChordPaneSize, pageHasChords, !!currentPageData.lyrics.length);
 
   return (
     <div className="flex h-screen flex-col overflow-y-hidden">
-      {!!currentPageData && !!song.tempo && !!song.timeSignature ? (
+      {pageHasProgressBar ? (
         <ProgressBar
-          tempo={song.tempo}
-          timeSignature={song.timeSignature}
+          tempo={song.tempo!}
+          timeSignature={song.timeSignature!}
           timerHalted={timerHalted}
           duration={currentPageData.duration || undefined}
           currentPage={currentPage}
@@ -62,7 +64,7 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
             hasTimer={!!currentPageData.duration}
           />
         </div>
-        <div className={`col-span-${10 - screenSplit} overflow-y-hidden px-4`} style={{ height: 'calc(100vh - 60px)' }}>
+        <div className={`col-span-${10 - screenSplit} overflow-y-clip px-4`} style={{ height: `calc(${lyricBoxHeight})` }}>
           <Lyrics lyrics={currentPageData.lyrics} />
         </div>
       </div>
