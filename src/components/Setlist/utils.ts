@@ -14,14 +14,20 @@ export const fetchGig = async (id: string): Promise<TGig | null> => {
   }
 };
 
-export const fetchSongs = async (ids: number[]): Promise<TSongData[]> => {
-  const songs: TSongData[] = [];
+export const fetchSongs = async (ids: number[]): Promise<(TSongData | 'Song not found')[]> => {
+  console.log('Fetching songs');
+  const songs: (TSongData | 'Song not found')[] = [];
   try {
     await Promise.all(
       ids.map(async (id) => {
-        const response: TSong = await (await fetch(`http://localhost:3000/songs/${id}`)).json();
-        const {title, version } = response;
-        songs.push({ id, title, version });
+        try {
+          const response: TSong = await (await fetch(`http://localhost:3000/songs/${id}`)).json();
+          const {title, version} = response;
+          console.log({id, title, version});
+          songs.push({id, title, version});
+        } catch (error) {
+          songs.push('Song not found');
+        }
       }),
     );
     return songs;

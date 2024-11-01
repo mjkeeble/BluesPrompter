@@ -67,12 +67,19 @@ const Setlist = () => {
   useEffect(() => {
     const getAndStoreSongs = async () => {
       const songIds = setlist.filter((songId) => songId !== BREAK);
+      
       const getSongs = await fetchSongs(songIds);
-      const extractedSongs = getSongs.map((song) => ({
-        id: song.id,
-        title: song.title,
-        version: song.version,
-      }));
+      const extractedSongs = getSongs.map((song) => {
+        if (song === 'Song not found') {
+          return { id: 0, title: 'Song not found' };
+        } else {
+          return {
+            id: song.id,
+            title: song.title,
+            version: song.version,
+          };
+        }
+      });
 
       setSongs(extractedSongs);
     };
