@@ -44,6 +44,7 @@ export type TSetlist = (number | TBreak)[];
 export type TInput = (typeof ACTIVEKEYS)[number] | null;
 
 export type TMode = (typeof LYRIC_PAGE_MODES)[number];
+export type TTextSizes = (typeof TEXT_SIZES)[number];
 
 // export type TChordPaneSize = 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -51,9 +52,9 @@ export type TConfig = {
   lyricPageMode?: TMode; // display mode for lyrics page
   chordPaneSize?: number; // portion of screen for chords (x/10)
   portrait: boolean; // screen orientation
-  chordFontSize?: (typeof TEXT_SIZES)[number]; // size of chord text
+  chordFontSize?: TTextSizes; // size of chord text
   lyricMinFontSize: number; // min size of lyric text
-  lyricMaxFontSize: '100' | '150' | '250'; // max size of lyric text
+  lyricMaxFontSize: 100 | 150 | 250; // max size of lyric text
 };
 
 export type symbolKeys =

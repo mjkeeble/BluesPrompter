@@ -21,11 +21,11 @@ export const LYRIC_PAGE_MODES = [CHORDS_FIRST, LYRICS_FIRST];
 export const ORIENTATION_LANDSCAPE = 'landscape';
 export const ORIENTATION_PORTRAIT = 'portrait';
 
-export const TEXT_SM = 'text-sm';
-export const TEXT_MD = 'text-med';
-export const TEXT_LG = 'text-lg';
-export const TEXT_XL = 'text-xl';
-export const TEXT_2XL = 'text-2xl';
+export const TEXT_SM = 'text-base';
+export const TEXT_MD = 'text-xl';
+export const TEXT_LG = 'text-3xl';
+export const TEXT_XL = 'text-5xl';
+export const TEXT_2XL = 'text-7xl';
 
 export const TEXT_SIZES = [TEXT_SM, TEXT_MD, TEXT_LG, TEXT_XL, TEXT_2XL];
 
@@ -35,3 +35,6 @@ export const MAX_LYRIC_FONT_SIZE = {
   250: { size: 250, reductionIncrement: 3 },
 };
 export type FontSizeKey = keyof typeof MAX_LYRIC_FONT_SIZE;
+
+export const DEFAULT_MAX_FONT_SIZE: FontSizeKey = 150;
+export const DEFAULT_MIN_FONT_SIZE = 20;

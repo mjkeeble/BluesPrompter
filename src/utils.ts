@@ -1,7 +1,7 @@
-import {BREAK} from "./const";
-import {TBreak, TSetlist} from "./types";
+import { BREAK } from './const';
+import { TBreak, TSetlist } from './types';
 
-const gemaRegex = '^\\d{1,8}-\\d{3}$'
+const gemaRegex = '^\\d{1,8}-\\d{3}$';
 
 export const hasMatchingBrackets = (str: string): boolean => {
   let depth = 0;

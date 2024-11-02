@@ -1,21 +1,19 @@
-import {TSong} from 'src/types';
-import config from '../../../data/config.json';
+import { TSong } from 'src/types';
 
 export const fetchScreenSplit = (
-  screenSplitSettingForSong: number | undefined,
+  screenSplit: number | undefined,
   pageHasChords: boolean,
   pageHasLyrics: boolean,
 ): number => {
   if (!pageHasChords && !pageHasLyrics) {
-    return screenSplitSettingForSong || Number(config.chordPaneSize);
+    return screenSplit || 2;
   }
   if (!pageHasChords) return 1;
 
-  if (!pageHasLyrics) return Number(config.chordPaneSize) || 8;
+  if (!pageHasLyrics) return 8;
 
-  return Number(screenSplitSettingForSong || config.chordPaneSize || 6);
+  return Number(screenSplit || 6);
 };
-
 
 export const fetchSong = async (id: number) => {
   try {

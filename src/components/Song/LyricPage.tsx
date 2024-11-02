@@ -1,3 +1,5 @@
+import { ConfigContext } from '@context/configContext';
+import { useContext } from 'react';
 import { TSong } from 'src/types';
 import Chords from './Chords';
 import Lyrics from './Lyrics';
@@ -13,17 +15,23 @@ type TProps = {
 };
 
 const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerHalted }) => {
+  const config = useContext(ConfigContext);
   const currentPageData = song.pages[currentPage - 1];
 
   if (!currentPageData) {
     return <div>Error: Page data not found</div>;
   }
 
-  const pageHasProgressBar: boolean = !!currentPageData && !!song.tempo && !!song.timeSignature &&!!currentPageData.duration;
+  const pageHasProgressBar: boolean =
+    !!currentPageData && !!song.tempo && !!song.timeSignature && !!currentPageData.duration;
   const pageHasChords: boolean = !!currentPageData.chords.length;
-  const lyricBoxHeight = pageHasProgressBar? '100vh - 84px' : '100vh - 60px';
+  const lyricBoxHeight = pageHasProgressBar ? '100vh - 84px' : '100vh - 60px';
 
-  const screenSplit = fetchScreenSplit(song.configChordPaneSize, pageHasChords, !!currentPageData.lyrics.length);
+  const screenSplit = fetchScreenSplit(
+    song.configChordPaneSize || config?.chordPaneSize,
+    pageHasChords,
+    !!currentPageData.lyrics.length,
+  );
 
   return (
     <div className="flex h-screen flex-col overflow-y-hidden">
@@ -64,7 +72,10 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
             hasTimer={!!currentPageData.duration}
           />
         </div>
-        <div className={`col-span-${10 - screenSplit} overflow-y-clip px-4`} style={{ height: `calc(${lyricBoxHeight})` }}>
+        <div
+          className={`col-span-${10 - screenSplit} overflow-y-clip px-4`}
+          style={{ height: `calc(${lyricBoxHeight})` }}
+        >
           <Lyrics lyrics={currentPageData.lyrics} />
         </div>
       </div>

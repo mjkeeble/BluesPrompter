@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react';
+import path from 'path';
 import { defineConfig } from 'vite';
 import eslint from 'vite-plugin-eslint2';
 
@@ -10,6 +11,7 @@ export default defineConfig({
       '@components': '/src/components',
       '@context': '/src/context',
       '@hooks': '/src/hooks',
+      src: path.resolve(__dirname, 'src'),
     },
   },
 });
