@@ -1,4 +1,4 @@
-import { NavIndicator } from '..';
+import { NavIndicator } from '@components/index';
 import CountIn from './CountIn';
 
 type TProps = {

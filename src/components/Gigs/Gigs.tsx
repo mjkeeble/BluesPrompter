@@ -2,10 +2,10 @@
 import { storeGigId } from '@context/index';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavIndicator } from '..';
-import { footswitch } from '../../const';
-import { TGig } from '../../types';
-import { displayDate } from '../../utils';
+import { footswitch } from 'src/const';
+import { TGig } from 'src/types';
+import { displayDate } from 'src/utils';
+import { NavIndicator } from '@components/index';
 import { fetchGigs, getDateBasedStyling } from './utils';
 
 const Gigs = () => {

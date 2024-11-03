@@ -1,6 +1,6 @@
 // ConfigContext.tsx
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { TConfig } from './../types';
+import { TConfig } from 'src/types';
 
 interface ConfigProviderProps {
   children: ReactNode;

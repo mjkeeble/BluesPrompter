@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NavIndicator } from '..';
+import { NavIndicator } from '@components/index';
 import { ConfigContext } from '@context/configContext';
 import {TEXT_XL} from 'src/const';
 import {TTextSizes} from 'src/types';

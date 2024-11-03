@@ -14,8 +14,8 @@ import {
   faUpLong,
   faX,
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {symbolKeys} from '../../types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { symbolKeys } from 'src/types';
 
 type TProps = {
   leftLong?: symbolKeys;
@@ -51,8 +51,7 @@ const NavIndicator: React.FC<TProps> = ({ leftLong, leftShort, centreLong, centr
   if (!rows) return <></>;
 
   return (
-    <div className={`fixed bottom-0 left-0 m-1 py-2 rounded-lg border-2 bg-black text-3xl`}>
-
+    <div className={`fixed bottom-0 left-0 m-1 rounded-lg border-2 bg-black py-2 text-3xl`}>
       {showShort ? (
         <div className="grid grid-cols-3">
           <FontAwesomeIcon
@@ -71,9 +70,7 @@ const NavIndicator: React.FC<TProps> = ({ leftLong, leftShort, centreLong, centr
             icon={rightShort ? symbols[rightShort] : faMinus}
           />
         </div>
-      ) : (
-        null
-      )}
+      ) : null}
 
       {showLong ? (
         <div className="grid grid-cols-3">

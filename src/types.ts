@@ -1,4 +1,4 @@
-import { ACTIVEKEYS, BREAK, LYRIC_PAGE_MODES, TEXT_SIZES } from './const';
+import { ACTIVEKEYS, BREAK, LYRIC_PAGE_MODES, TEXT_SIZES } from 'src/const';
 
 export type TGig = {
   id: string;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavIndicator } from '..';
+import { NavIndicator } from '@components/index';
 
 type TProps = {
   isStart: boolean;

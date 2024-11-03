@@ -1,9 +1,9 @@
 import { getGigId, storeSetlist } from '@context/index';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavIndicator, SongListButton } from '..';
-import { BREAK, footswitch } from '../../const';
-import { TSong } from '../../types';
+import { NavIndicator, SongListButton } from '@components/index';
+import { BREAK, footswitch } from 'src/const';
+import { TSong } from 'src/types';
 import { fetchSongs } from './utils';
 
 const Repertoire = () => {

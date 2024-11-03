@@ -1,7 +1,7 @@
 import { storeSetlist } from '@context/index';
 import { TGig, TSong } from 'src/types';
-import {flattenSetlist} from '../../utils';
-import {TSongData} from './Setlist';
+import { flattenSetlist } from 'src/utils';
+import { TSongData } from './Setlist';
 
 export const fetchGig = async (id: string): Promise<TGig | null> => {
   try {
@@ -21,8 +21,8 @@ export const fetchSongs = async (ids: number[]): Promise<(TSongData | 'Song not 
       ids.map(async (id) => {
         try {
           const response: TSong = await (await fetch(`http://localhost:3000/songs/${id}`)).json();
-          const {title, version} = response;
-          songs.push({id, title, version});
+          const { title, version } = response;
+          songs.push({ id, title, version });
         } catch (error) {
           songs.push('Song not found');
         }

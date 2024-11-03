@@ -1,10 +1,10 @@
 import { getSetlist, storeSetlist } from '@context/index';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NavIndicator, SongListButton } from '..';
-import { BREAK, footswitch } from '../../const';
-import { TBreak, TGig, TSetlist } from '../../types';
-import { displayDate, flattenSetlist } from '../../utils';
+import { NavIndicator, SongListButton } from '@components/index';
+import { BREAK, footswitch } from 'src/const';
+import { TBreak, TGig, TSetlist } from 'src/types';
+import { displayDate, flattenSetlist } from 'src/utils';
 import { fetchGig, fetchSongs } from './utils';
 
 export type TSongData = {

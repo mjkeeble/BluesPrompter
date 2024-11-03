@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ACTIVEKEYS, footswitch } from '../../const';
-import { TInput } from '../../types';
+import { ACTIVEKEYS, footswitch } from 'src/const';
+import { TInput } from 'src/types';
 
 type TProps = {
   footswitchInput: TInput;

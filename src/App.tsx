@@ -1,7 +1,7 @@
 import { Demo, Gigs, Repertoire, Setlist, Song } from '@components/index';
 import { ConfigProvider } from '@context/configContext';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
+import 'src/App.css';
 
 const App = () => {
   return (

@@ -10,7 +10,6 @@ export default defineConfig({
     alias: {
       '@components': '/src/components',
       '@context': '/src/context',
-      '@hooks': '/src/hooks',
       src: path.resolve(__dirname, 'src'),
     },
   },

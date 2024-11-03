@@ -1,5 +1,5 @@
-import { BREAK } from './const';
-import { TBreak, TSetlist } from './types';
+import { BREAK } from 'src/const';
+import { TBreak, TSetlist } from 'src/types';
 
 const gemaRegex = '^\\d{1,8}-\\d{3}$';
 

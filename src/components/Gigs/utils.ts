@@ -1,4 +1,4 @@
-import { TGig } from '../../types';
+import { TGig } from 'src/types';
 
 export const getDateBasedStyling = (date: string): string => {
   const gigDate = new Date(date).setHours(0, 0, 0, 0);
