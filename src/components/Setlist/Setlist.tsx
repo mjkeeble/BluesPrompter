@@ -1,4 +1,4 @@
-import { storeSetlist } from '@context/index';
+import { getSetlist, storeSetlist } from '@context/index';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '..';
@@ -24,16 +24,23 @@ const Setlist = () => {
 
   useEffect(() => {
     const fetchAndSetData = async () => {
-      try {
-        const getGig = await fetchGig(id!);
-        if (getGig) {
-          setGig(getGig);
-          storeSetlist(flattenSetlist(getGig.setlist));
-          setSetlist(flattenSetlist(getGig.setlist));
-        }
-        return;
-      } catch (error) {
-        console.error('Error fetching gig data', error);
+      switch (id) {
+        case undefined:
+          setSetlist(getSetlist());
+          break;
+        default:
+          try {
+            const getGig = await fetchGig(id!);
+            if (getGig) {
+              setGig(getGig);
+              storeSetlist(flattenSetlist(getGig.setlist));
+              setSetlist(flattenSetlist(getGig.setlist));
+            }
+            return;
+          } catch (error) {
+            console.error('Error fetching gig data', error);
+          }
+          break;
       }
     };
 
@@ -67,7 +74,7 @@ const Setlist = () => {
   useEffect(() => {
     const getAndStoreSongs = async () => {
       const songIds = setlist.filter((songId) => songId !== BREAK);
-      
+
       const getSongs = await fetchSongs(songIds);
       const extractedSongs = getSongs.map((song) => {
         if (song === 'Song not found') {
@@ -90,7 +97,9 @@ const Setlist = () => {
   const handleKeyDown = (event: { key: string }) => {
     if (isLoaded) {
       const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
-      if (event.key === footswitch.centreShort) {
+      if (event.key === footswitch.centreLong) {
+        Navigate('/');
+      } else if (event.key === footswitch.centreShort) {
         buttonsRef.current[currentIndex].click();
       } else if (event.key === footswitch.leftShort && currentIndex > 0) {
         buttonsRef.current[currentIndex - 1].focus();
@@ -155,7 +164,7 @@ const Setlist = () => {
         </ul>
         <div ref={endOfListRef}></div>
       </div>
-      <NavIndicator leftShort="up" centreShort="point" rightShort="down" />
+      <NavIndicator leftShort="up" centreShort="point" rightShort="down" centreLong="eject" />
     </div>
   );
 };

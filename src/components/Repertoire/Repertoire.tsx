@@ -1,4 +1,4 @@
-import { storeSetlist } from '@context/index';
+import { getGigId, storeSetlist } from '@context/index';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '..';
@@ -11,8 +11,7 @@ const Repertoire = () => {
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [repertoireList, setRepertoireList] = useState<TSong[]>([]);
-
-  // TODO: at the moment setlist is stored in local storage and
+  const gigId = getGigId();
 
   useEffect(() => {
     const getAndSetSongs = async () => {
@@ -54,7 +53,6 @@ const Repertoire = () => {
 
   const handleKeyDown = (event: { key: string }) => {
     if (isLoaded) {
-      // TODO: refactor with switch
       const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
       switch (event.key) {
         case footswitch.centreShort:
@@ -98,6 +96,9 @@ const Repertoire = () => {
             buttonsRef.current[buttonsRef.current.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
           break;
+        case footswitch.centreLong:
+          gigId ? navigate(`/setlist/${gigId}`) : navigate('/');
+          break;
         default:
           break;
       }
@@ -136,7 +137,14 @@ const Repertoire = () => {
           <div ref={endOfListRef} />
         </ul>
       </div>
-      <NavIndicator leftShort="up" centreShort="point" rightShort="down" leftLong="skipUp" rightLong="skipDown" />
+      <NavIndicator
+        leftShort="up"
+        centreShort="point"
+        rightShort="down"
+        leftLong="skipUp"
+        centreLong="eject"
+        rightLong="skipDown"
+      />
     </div>
   );
 };

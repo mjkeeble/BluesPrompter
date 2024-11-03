@@ -11,7 +11,7 @@ type TProps = {
   isLastSong: boolean;
 };
 
-const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes,  timeSignature, isLastSong }) => {
+const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes, timeSignature, isLastSong }) => {
   const currentTime = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 
   return (
@@ -28,7 +28,7 @@ const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes,
               <p className="text-lyric">{setup}</p>
             </div>
           ) : null}
-          {notes ? <p className="text-bj-green-light text-7xl">{notes}</p> : null}
+          {notes ? <p className="text-7xl text-bj-green-light">{notes}</p> : null}
           <div>{tempo && timeSignature ? <CountIn tempo={tempo} timeSignature={timeSignature} /> : null}</div>
         </div>
       </div>
@@ -36,7 +36,7 @@ const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes,
         leftShort="backwardFast"
         rightShort="play"
         centreLong="eject"
-        rightLong={isLastSong ? 'forwardStep' : undefined}
+        rightLong={isLastSong ? undefined : 'forwardStep'}
         // centreShort="eject"  // TODO: add navigate back to setlist
       />
     </div>
