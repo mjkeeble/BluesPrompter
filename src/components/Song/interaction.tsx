@@ -61,7 +61,7 @@ export const ManageInteraction: React.FC<TProps> = ({
       case footswitch.centreLong:
         // Handle left short press
         // go to setlist
-        Navigate('/setlist/1');
+        Navigate('/setlist');
         return null;
       default:
         return null;

@@ -11,7 +11,7 @@ import {GigContext} from '@context/index.ts';
 
 const Song = () => {
   const Navigate = useNavigate();
-  const { setlist } = useContext(GigContext);
+  const { setlist } = useContext(GigContext) ?? { setlist: [] };
   const { id } = useParams();
   const [setlistIndex, setSetlistIndex] = useState<number>(parseInt(id!));
   const [song, setSong] = useState<TSong>();
