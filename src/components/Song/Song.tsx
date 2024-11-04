@@ -1,6 +1,5 @@
 import { Screensaver } from '@components/index.ts';
-import { getSetlist } from '@context/setlistStorage.ts';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ACTIVEKEYS, BREAK } from 'src/const.ts';
 import { TSong } from 'src/types';
@@ -8,11 +7,12 @@ import LyricPage from './LyricPage.tsx';
 import TitlePage from './TitlePage.tsx';
 import { ManageInteraction } from './interaction';
 import { fetchSong } from './utils.ts';
+import {GigContext} from '@context/index.ts';
 
 const Song = () => {
   const Navigate = useNavigate();
+  const { setlist } = useContext(GigContext);
   const { id } = useParams();
-  const setlist = useMemo(() => getSetlist(), []);
   const [setlistIndex, setSetlistIndex] = useState<number>(parseInt(id!));
   const [song, setSong] = useState<TSong>();
   const [currentPage, setCurrentPage] = useState<number>(0);

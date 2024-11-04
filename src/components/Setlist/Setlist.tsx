@@ -1,11 +1,11 @@
-import { getSetlist, storeSetlist } from '@context/index';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '@components/index';
+import { GigContext } from '@context/index';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BREAK, footswitch } from 'src/const';
-import { TBreak, TGig, TSetlist } from 'src/types';
-import { displayDate, flattenSetlist } from 'src/utils';
-import { fetchGig, fetchSongs } from './utils';
+import { TBreak } from 'src/types';
+import { displayDate } from 'src/utils';
+import { fetchSongs } from './utils';
 
 export type TSongData = {
   id: number;
@@ -14,38 +14,11 @@ export type TSongData = {
 };
 
 const Setlist = () => {
-  const { id } = useParams();
   const Navigate = useNavigate();
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [gig, setGig] = useState<TGig | undefined>(undefined);
-  const [setlist, setSetlist] = useState<TSetlist>([]);
+  const { gig, setlist } = useContext(GigContext);
   const [songs, setSongs] = useState<TSongData[]>([]);
-
-  useEffect(() => {
-    const fetchAndSetData = async () => {
-      switch (id) {
-        case undefined:
-          setSetlist(getSetlist());
-          break;
-        default:
-          try {
-            const getGig = await fetchGig(id!);
-            if (getGig) {
-              setGig(getGig);
-              storeSetlist(flattenSetlist(getGig.setlist));
-              setSetlist(flattenSetlist(getGig.setlist));
-            }
-            return;
-          } catch (error) {
-            console.error('Error fetching gig data', error);
-          }
-          break;
-      }
-    };
-
-    fetchAndSetData();
-  }, [id]);
 
   useEffect(() => {
     const focusFirstButton = () => {

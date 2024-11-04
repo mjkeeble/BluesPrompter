@@ -1,15 +1,17 @@
 // import { storeSetlist } from '@context/index';
-import { storeGigId } from '@context/index';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { NavIndicator } from '@components/index';
+import { GigContext } from '@context/index';
+import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { footswitch } from 'src/const';
 import { TGig } from 'src/types';
 import { displayDate } from 'src/utils';
-import { NavIndicator } from '@components/index';
 import { fetchGigs, getDateBasedStyling } from './utils';
 
 const Gigs = () => {
   const Navigate = useNavigate();
+  const { setGig } = useContext(GigContext);
+
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [gigs, setGigs] = useState<TGig[]>([]);
 
@@ -70,8 +72,8 @@ const Gigs = () => {
   };
 
   const handleSelectGig = (gig: TGig): void => {
-    storeGigId(gig.id);
-    Navigate(`/setList/${gig.id}`);
+    setGig(gig);
+    Navigate(`/setList`);
   };
 
   return (

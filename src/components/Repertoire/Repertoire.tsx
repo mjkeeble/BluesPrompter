@@ -1,17 +1,25 @@
-import { getGigId, storeSetlist } from '@context/index';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { NavIndicator, SongListButton } from '@components/index';
-import { BREAK, footswitch } from 'src/const';
-import { TSong } from 'src/types';
+import { GigContext } from '@context/gigContext';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { footswitch } from 'src/const';
+import { TGig, TSong } from 'src/types';
 import { fetchSongs } from './utils';
 
+const repertoireGig: TGig = {
+  id: 'repertoire',
+  venue: '',
+  town: '',
+  dateTime: new Date().toISOString(),
+  setlist: [[]],
+};
+
 const Repertoire = () => {
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
+  const { gig, setGig } = useContext(GigContext);
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [repertoireList, setRepertoireList] = useState<TSong[]>([]);
-  const gigId = getGigId();
 
   useEffect(() => {
     const getAndSetSongs = async () => {
@@ -21,7 +29,6 @@ const Repertoire = () => {
       }
     };
 
-    storeSetlist([0]);
     getAndSetSongs();
   }, []);
 
@@ -97,7 +104,7 @@ const Repertoire = () => {
           }
           break;
         case footswitch.centreLong:
-          gigId ? navigate(`/setlist/${gigId}`) : navigate('/');
+          gig && gig.id !== 'repertoire' ? Navigate(`/setlist`) : Navigate('/');
           break;
         default:
           break;
@@ -108,11 +115,11 @@ const Repertoire = () => {
   const handleSelectSong = (id: number) => {
     let storageUpdateDebounce: NodeJS.Timeout | null = null;
 
-    storeSetlist([BREAK, Number(id)]);
+    setGig({ ...repertoireGig, setlist: [[Number(id)]] });
     fetchSongs();
     if (storageUpdateDebounce) clearTimeout(storageUpdateDebounce);
     storageUpdateDebounce = setTimeout(() => {
-      navigate(`/song/1`);
+      Navigate(`/song/1`);
     }, 500);
   };
 

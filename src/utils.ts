@@ -1,6 +1,7 @@
-import { BREAK } from 'src/const';
-import { TBreak, TSetlist } from 'src/types';
+import {BREAK} from "./const";
+import {TBreak, TSetlist} from "./types";
 
+// validate form of GEMA-Werknummer
 const gemaRegex = '^\\d{1,8}-\\d{3}$';
 
 export const hasMatchingBrackets = (str: string): boolean => {
@@ -32,6 +33,11 @@ export const validateGemaWerknummer = (gemaWerknummer: string): boolean => {
 export const validateDuration = (minutes: number, seconds: number): boolean => {
   return minutes >= 0 && seconds >= 0 && seconds < 60;
 };
+
+/**
+ * Flattens a 2D array of numbers (setlist) into a 1D array with a specific format.
+ * Each sub-array is prefixed with a BREAK element and the final array is also suffixed with a BREAK element.
+ **/
 
 export const flattenSetlist = (setlist: number[][]): TSetlist => {
   return setlist.flatMap((subArray) => [BREAK as TBreak, ...subArray.map(Number)]).concat([BREAK as TBreak]);
