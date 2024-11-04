@@ -30,7 +30,6 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
   const screenSplit = fetchScreenSplit(
     song.configChordPaneSize || config?.chordPaneSize,
     pageHasChords,
-    !!currentPageData.lyrics.length,
   );
 
   return (

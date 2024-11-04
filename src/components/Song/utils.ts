@@ -3,16 +3,8 @@ import { TSong } from 'src/types';
 export const fetchScreenSplit = (
   screenSplit: number | undefined,
   pageHasChords: boolean,
-  pageHasLyrics: boolean,
 ): number => {
-  if (!pageHasChords && !pageHasLyrics) {
-    return screenSplit || 2;
-  }
-  if (!pageHasChords) return 1;
-
-  if (!pageHasLyrics) return 8;
-
-  return Number(screenSplit || 6);
+  return !pageHasChords ? 1 : Number(screenSplit || 6);
 };
 
 export const fetchSong = async (id: number) => {
