@@ -16,12 +16,15 @@ const repertoireGig: TGig = {
 
 const Repertoire = () => {
   const Navigate = useNavigate();
-  const { gig, setGig } = useContext(GigContext);
+  const gigContext = useContext(GigContext);
+  const gig = gigContext?.gig;
+  const setGig = gigContext?.setGig;
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [repertoireList, setRepertoireList] = useState<TSong[]>([]);
 
   useEffect(() => {
+    setGig && setGig(repertoireGig);
     const getAndSetSongs = async () => {
       const songList = await fetchSongs();
       if (songList) {
@@ -30,7 +33,7 @@ const Repertoire = () => {
     };
 
     getAndSetSongs();
-  }, []);
+  }, [setGig]);
 
   useEffect(() => {
     const focusFirstButton = () => {
@@ -115,7 +118,10 @@ const Repertoire = () => {
   const handleSelectSong = (id: number) => {
     let storageUpdateDebounce: NodeJS.Timeout | null = null;
 
-    setGig({ ...repertoireGig, setlist: [[Number(id)]] });
+    if (setGig) {
+      setGig({ ...repertoireGig, setlist: [[Number(id)]] });
+    }
+
     fetchSongs();
     if (storageUpdateDebounce) clearTimeout(storageUpdateDebounce);
     storageUpdateDebounce = setTimeout(() => {

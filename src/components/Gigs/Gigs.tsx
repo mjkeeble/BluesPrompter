@@ -10,7 +10,8 @@ import { fetchGigs, getDateBasedStyling } from './utils';
 
 const Gigs = () => {
   const Navigate = useNavigate();
-  const { setGig } = useContext(GigContext);
+  const gigContext = useContext(GigContext);
+  const setGig = gigContext?.setGig;
 
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [gigs, setGigs] = useState<TGig[]>([]);
@@ -72,7 +73,9 @@ const Gigs = () => {
   };
 
   const handleSelectGig = (gig: TGig): void => {
-    setGig(gig);
+    if (setGig) {
+      setGig(gig);
+    }
     Navigate(`/setList`);
   };
 

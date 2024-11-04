@@ -1,6 +1,6 @@
 import { NavIndicator, SongListButton } from '@components/index';
 import { GigContext } from '@context/index';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BREAK, footswitch } from 'src/const';
 import { TBreak } from 'src/types';
@@ -17,7 +17,9 @@ const Setlist = () => {
   const Navigate = useNavigate();
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const { gig, setlist } = useContext(GigContext);
+  const gigContext = useContext(GigContext);
+  const gig = gigContext?.gig;
+  const setlist = useMemo(() => gigContext?.setlist || [], [gigContext?.setlist]);
   const [songs, setSongs] = useState<TSongData[]>([]);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const Setlist = () => {
 
   useEffect(() => {
     const getAndStoreSongs = async () => {
-      const songIds = setlist.filter((songId) => songId !== BREAK);
+      const songIds = setlist.filter((songId: number | TBreak) => songId !== BREAK);
 
       const getSongs = await fetchSongs(songIds);
       const extractedSongs = getSongs.map((song) => {
@@ -101,7 +103,7 @@ const Setlist = () => {
         ) : null}
 
         <ul className="mb-20 mt-8">
-          {setlist.map((songId: number | TBreak, index) => {
+          {setlist.map((songId: number | TBreak, index: number) => {
             if (songId === BREAK)
               return (
                 <li key={index}>
