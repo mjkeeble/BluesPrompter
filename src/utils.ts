@@ -40,5 +40,7 @@ export const validateDuration = (minutes: number, seconds: number): boolean => {
  **/
 
 export const flattenSetlist = (setlist: number[][]): TSetlist => {
+  setlist = setlist.filter((subArray) => subArray.length > 0);
+
   return setlist.flatMap((subArray) => [BREAK as TBreak, ...subArray.map(Number)]).concat([BREAK as TBreak]);
 };
