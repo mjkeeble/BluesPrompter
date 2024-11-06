@@ -1,3 +1,5 @@
+import {FontSizeKey} from "./types";
+
 export const BREAK = 'BREAK';
 
 export const ACTIVEKEYS = ['u', 'i', 'o', 'j', 'k', 'l'];
@@ -34,7 +36,7 @@ export const MAX_LYRIC_FONT_SIZE = {
   150: { size: 150, reductionIncrement: 2 },
   250: { size: 250, reductionIncrement: 3 },
 };
-export type FontSizeKey = keyof typeof MAX_LYRIC_FONT_SIZE;
+
 
 export const DEFAULT_MAX_FONT_SIZE: FontSizeKey = 150;
 export const DEFAULT_MIN_FONT_SIZE = 20;

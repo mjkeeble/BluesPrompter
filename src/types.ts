@@ -1,4 +1,4 @@
-import { ACTIVEKEYS, BREAK, LYRIC_PAGE_MODES, TEXT_SIZES } from 'src/const';
+import { ACTIVEKEYS, BREAK, LYRIC_PAGE_MODES, MAX_LYRIC_FONT_SIZE, TEXT_SIZES } from 'src/const';
 
 export type TGig = {
   id: string;
@@ -45,6 +45,7 @@ export type TInput = (typeof ACTIVEKEYS)[number] | null;
 
 export type TMode = (typeof LYRIC_PAGE_MODES)[number];
 export type TTextSizes = (typeof TEXT_SIZES)[number];
+export type FontSizeKey = keyof typeof MAX_LYRIC_FONT_SIZE;
 
 // export type TChordPaneSize = 2 | 3 | 4 | 5 | 6 | 7;
 
