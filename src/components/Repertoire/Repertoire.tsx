@@ -2,9 +2,8 @@ import { NavIndicator, SongListButton } from '@components/index';
 import { GigContext } from '@context/gigContext';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { footswitch } from 'src/const';
 import { TGig, TSong } from 'src/types';
-import { fetchSongs } from './utils';
+import { fetchSongs, handleKeyDown } from './utils';
 
 const repertoireGig: TGig = {
   id: 'repertoire',
@@ -37,7 +36,7 @@ const Repertoire = () => {
 
   useEffect(() => {
     const focusFirstButton = () => {
-      if (buttonsRef.current[0]) {
+      if (buttonsRef.current && buttonsRef.current[0]) {
         buttonsRef.current[0].focus();
       }
     };
@@ -61,60 +60,6 @@ const Repertoire = () => {
 
   const endOfListRef = useRef<HTMLDivElement | null>(null);
 
-  const handleKeyDown = (event: { key: string }) => {
-    if (isLoaded) {
-      const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
-      switch (event.key) {
-        case footswitch.centreShort:
-          buttonsRef.current[currentIndex].click();
-          break;
-        case footswitch.leftShort:
-          if (currentIndex > 0) {
-            buttonsRef.current[currentIndex - 1].focus();
-            buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } else if (currentIndex === 0) {
-            buttonsRef.current[repertoireList.length - 1].focus();
-            buttonsRef.current[repertoireList.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          break;
-        case footswitch.rightShort:
-          if (currentIndex < buttonsRef.current.length - 1) {
-            buttonsRef.current[currentIndex + 1].focus();
-            buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } else if (currentIndex === buttonsRef.current.length - 1) {
-            buttonsRef.current[0].focus();
-            buttonsRef.current[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } else if (endOfListRef.current) {
-            endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
-          }
-          break;
-        case footswitch.leftLong:
-          if (currentIndex > 10) {
-            buttonsRef.current[currentIndex - 10].focus();
-            buttonsRef.current[currentIndex - 10].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } else {
-            buttonsRef.current[0].focus();
-            buttonsRef.current[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          break;
-        case footswitch.rightLong:
-          if (currentIndex + 10 < buttonsRef.current.length) {
-            buttonsRef.current[currentIndex + 10].focus();
-            buttonsRef.current[currentIndex + 10].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } else {
-            buttonsRef.current[buttonsRef.current.length - 1].focus();
-            buttonsRef.current[buttonsRef.current.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          break;
-        case footswitch.centreLong:
-          gig && gig.id !== 'repertoire' ? Navigate(`/setlist`) : Navigate('/');
-          break;
-        default:
-          break;
-      }
-    }
-  };
-
   const handleSelectSong = (id: number) => {
     let storageUpdateDebounce: NodeJS.Timeout | null = null;
 
@@ -131,7 +76,14 @@ const Repertoire = () => {
 
   return (
     <div>
-      <div onKeyDown={handleKeyDown} tabIndex={0}>
+      <div
+        onKeyDown={(event) =>
+          isLoaded &&
+          buttonsRef.current &&
+          handleKeyDown(event, buttonsRef, repertoireList, endOfListRef, gig, Navigate)
+        }
+        tabIndex={0}
+      >
         <h1 className="my-5 font-fredericka text-7xl text-bj-white">Repertoire</h1>
         <ul className="mb-20 mt-8">
           {repertoireList.map((song: TSong, index) => {

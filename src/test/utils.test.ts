@@ -93,4 +93,40 @@ describe('flattenSetlist', () => {
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);
   });
+
+  it('should handle a setlist with a single element', () => {
+    const setlist = [[1]];
+
+    const expectedOutput = [1];
+
+    const result = flattenSetlist(setlist);
+    expect(result).toEqual(expectedOutput);
+  });
+
+  it('should handle a setlist with multiple single-element subarrays', () => {
+    const setlist = [[1], [2], [3]];
+
+    const expectedOutput = [BREAK as TBreak, 1, BREAK as TBreak, 2, BREAK as TBreak, 3, BREAK as TBreak];
+
+    const result = flattenSetlist(setlist);
+    expect(result).toEqual(expectedOutput);
+  });
+
+  it('should handle a setlist with mixed empty and non-empty subarrays', () => {
+    const setlist = [[], [1], [], [2, 3], [], [4], []];
+
+    const expectedOutput = [BREAK as TBreak, 1, BREAK as TBreak, 2, 3, BREAK as TBreak, 4, BREAK as TBreak];
+
+    const result = flattenSetlist(setlist);
+    expect(result).toEqual(expectedOutput);
+  });
+
+  it('should handle a setlist with all empty subarrays', () => {
+    const setlist = [[], [], []];
+
+    const expectedOutput = [BREAK as TBreak];
+
+    const result = flattenSetlist(setlist);
+    expect(result).toEqual(expectedOutput);
+  });
 });
