@@ -1,5 +1,5 @@
-import {BREAK} from "./const";
-import {TBreak, TSetlist} from "./types";
+import { BREAK } from './const';
+import { TBreak, TSetlist } from './types';
 
 // validate form of GEMA-Werknummer
 const gemaRegex = '^\\d{1,8}-\\d{3}$';
@@ -41,6 +41,8 @@ export const validateDuration = (minutes: number, seconds: number): boolean => {
 
 export const flattenSetlist = (setlist: number[][]): TSetlist => {
   setlist = setlist.filter((subArray) => subArray.length > 0);
+  if (setlist.length === 0) return [BREAK as TBreak];
+  if (setlist.length === 1 && setlist[0].length === 1) return [setlist[0][0]];
 
   return setlist.flatMap((subArray) => [BREAK as TBreak, ...subArray.map(Number)]).concat([BREAK as TBreak]);
 };

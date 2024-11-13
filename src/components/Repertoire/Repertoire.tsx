@@ -125,7 +125,7 @@ const Repertoire = () => {
     fetchSongs();
     if (storageUpdateDebounce) clearTimeout(storageUpdateDebounce);
     storageUpdateDebounce = setTimeout(() => {
-      Navigate(`/song/1`);
+      Navigate(`/song/0`);
     }, 500);
   };
 

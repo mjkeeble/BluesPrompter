@@ -1,4 +1,5 @@
 import { Screensaver } from '@components/index.ts';
+import { GigContext } from '@context/index.ts';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ACTIVEKEYS, BREAK } from 'src/const.ts';
@@ -7,7 +8,6 @@ import LyricPage from './LyricPage.tsx';
 import TitlePage from './TitlePage.tsx';
 import { ManageInteraction } from './interaction';
 import { fetchSong } from './utils.ts';
-import {GigContext} from '@context/index.ts';
 
 const Song = () => {
   const Navigate = useNavigate();
@@ -67,7 +67,7 @@ const Song = () => {
     };
   }, [setlistIndex, setlist, currentPage, duration, timerIsHalted, song, Navigate]);
 
-  if (!setlistIndex || setlist[setlistIndex] === BREAK)
+  if (setlist[setlistIndex] === BREAK)
     return <Screensaver isStart={!setlistIndex} isLastSong={setlistIndex === setlist.length - 1} />;
 
   if (!song) {
