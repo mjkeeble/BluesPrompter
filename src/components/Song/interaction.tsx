@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ACTIVEKEYS, footswitch } from 'src/const';
 import { TInput } from 'src/types';
+import { goto } from './utils';
 
 type TProps = {
   footswitchInput: TInput;
@@ -19,7 +20,7 @@ type TProps = {
 
 // This component returns null (i.e.no visible component). It is only responsible for handling user commands
 
-export const ManageInteraction: React.FC<TProps> = ({
+export const ManageInteraction = ({
   footswitchInput,
   currentSong,
   totalSongs,
@@ -31,10 +32,10 @@ export const ManageInteraction: React.FC<TProps> = ({
   songPages,
   showingScreensaver,
   Navigate,
-}) => {
+}: TProps) => {
   // TITLE PAGE
 
-  if (footswitchInput && !ACTIVEKEYS.includes(footswitchInput)) return null;
+  if (footswitchInput && !ACTIVEKEYS.includes(footswitchInput)) return;
 
   const isLastSong = currentSong === totalSongs - 1;
   const isLastPage = currentPage === songPages;
@@ -43,28 +44,19 @@ export const ManageInteraction: React.FC<TProps> = ({
   if (showingScreensaver) {
     switch (footswitchInput) {
       case footswitch.LEFT_SHORT:
-        // Handle left short press
-        // go to previous song
-        if (currentSong) {
-          Navigate(`/song/${Math.max(currentSong - 1, 0)}`);
-        }
-        return null;
+        currentSong ? goto.previousSong(currentSong, Navigate) : null;
+        return;
+
       case footswitch.RIGHT_SHORT:
-        // Handle right short press
-        // go to next song or repertoire if at end of setlist
-        if (isLastSong) {
-          Navigate('/repertoire');
-        } else {
-          Navigate(`/song/${Math.min(currentSong + 1, totalSongs - 1)}`);
-        }
-        return null;
+        isLastSong ? goto.repertoire(Navigate) : goto.nextSong(currentSong, Navigate);
+        return;
+
       case footswitch.CENTRE_LONG:
-        // Handle centre long press
-        // go to setlist
-        Navigate('/setlist');
-        return null;
+        goto.setList(Navigate);
+        return;
+
       default:
-        return null;
+        return;
     }
   }
 
@@ -72,119 +64,87 @@ export const ManageInteraction: React.FC<TProps> = ({
   if (!currentPage) {
     switch (footswitchInput) {
       case footswitch.LEFT_SHORT:
-        // Handle left short press
-        // go to previous song
-        Navigate(`/song/${Math.max(currentSong - 1, 0)}`);
-        return null;
+        goto.previousSong(currentSong, Navigate);
+        return;
+
       case footswitch.RIGHT_SHORT:
-        // Handle right short press
-        // go to next page
-        setCurrentPage(currentPage + 1);
-        return null;
+        goto.nextPage(currentPage, setCurrentPage);
+        return;
+
       case footswitch.CENTRE_LONG:
-        // Handle centre long press
-        Navigate('/setlist');
-        return null;
+        goto.setList(Navigate);
+        return;
+
       case footswitch.RIGHT_LONG:
-        // Handle right long press
-        // go to next song or repertoire if at end of setlist
-        if (isLastSong) {
-          Navigate('/repertoire');
-        } else {
-          setCurrentPage(0);
-          Navigate(`/song/${currentSong + 1}`);
-        }
-        return null;
+        isLastSong ? goto.repertoire(Navigate) : goto.nextSong(currentSong, Navigate);
+        return;
+
       default:
-        return null;
+        return;
     }
   }
   // LYRIC PAGE
   if (!isLastPage && currentPage) {
     switch (footswitchInput) {
       case footswitch.LEFT_SHORT:
-        // Handle left short press
-        // go to previous page in song
-        setCurrentPage(currentPage - 1);
-        return null;
+        goto.previousPage(currentPage, setCurrentPage);
+        return;
+
       case footswitch.CENTRE_SHORT:
-        // Handle centre short press
-        // toggle timer freeze
         if (hasTimer) {
-          setTimerHalted(!timerHalted);
+          goto.toggleTimerFreeze(timerHalted, setTimerHalted);
         } else {
           setTimerHalted(false);
         }
-        return null;
+        return;
+
       case footswitch.RIGHT_SHORT:
-        // Handle right short press
-        // go to next page in song
-        setCurrentPage(currentPage + 1);
-        return null;
+        goto.nextPage(currentPage, setCurrentPage);
+        return;
+
       case footswitch.LEFT_LONG:
-        // Handle left long press
-        // go to start of song
-        setCurrentPage(0);
-        return null;
+        goto.titlePage(setCurrentPage);
+        return;
+
       case footswitch.CENTRE_LONG:
-        // Handle centre long press
         // reload page
         window.location.reload();
-        return null;
+        return;
+
       case footswitch.RIGHT_LONG:
-        // Handle right long press
-        // go to next song or repertoire if at end of setlist
-        if (isLastSong) {
-          Navigate('/repertoire');
-        } else {
-          setCurrentPage(0);
-          Navigate(`/song/${currentSong + 1}`);
-        }
-        return null;
+        isLastSong ? goto.repertoire(Navigate) : goto.nextSong(currentSong, Navigate);
+        return;
+
       default:
-        return null;
+        return;
     }
   }
   // LAST LYRIC PAGE
   if (isLastPage) {
     switch (footswitchInput) {
       case footswitch.LEFT_SHORT:
-        // Handle left short press
-        // go to previous page in song
-        setCurrentPage(currentPage - 1);
-        return null;
+        goto.previousPage(currentPage, setCurrentPage);
+        return;
 
       case footswitch.CENTRE_SHORT:
-        // Handle centre short press
-        // toggle timer freeze
-        if (hasTimer) {
-          setTimerHalted(!timerHalted);
-        } else {
-          setTimerHalted(false);
-        }
-        return null;
+        hasTimer ? goto.toggleTimerFreeze(timerHalted, setTimerHalted) : setTimerHalted(false);
+        return;
+
       case footswitch.RIGHT_SHORT:
-        // Handle right short press
-        // go to next song or repertoire if at end of setlist
-        if (isLastSong) {
-          Navigate('/repertoire');
-        } else {
-          setCurrentPage(0);
-          Navigate(`/song/${currentSong + 1}`);
-        }
-        return null;
+        isLastSong ? goto.repertoire(Navigate) : goto.nextSong(currentSong, Navigate);
+        return;
+
       case footswitch.LEFT_LONG:
-        // Handle left long press
-        // go to start of song
-        setCurrentPage(0);
-        return null;
+        goto.titlePage(setCurrentPage);
+        return;
+
       case footswitch.CENTRE_LONG:
-        // Handle centre long press
         // reload page
         window.location.reload();
-        return null;
+        return;
+
       default:
-        return null;
+        return;
     }
   }
 };
