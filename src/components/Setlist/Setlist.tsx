@@ -72,14 +72,14 @@ const Setlist = () => {
   const handleKeyDown = (event: { key: string }) => {
     if (isLoaded) {
       const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
-      if (event.key === footswitch.centreLong) {
+      if (event.key === footswitch.CENTRE_LONG) {
         Navigate('/');
-      } else if (event.key === footswitch.centreShort) {
+      } else if (event.key === footswitch.CENTRE_SHORT) {
         buttonsRef.current[currentIndex].click();
-      } else if (event.key === footswitch.leftShort && currentIndex > 0) {
+      } else if (event.key === footswitch.LEFT_SHORT && currentIndex > 0) {
         buttonsRef.current[currentIndex - 1].focus();
         buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else if (event.key === footswitch.rightShort) {
+      } else if (event.key === footswitch.RIGHT_SHORT) {
         if (currentIndex < buttonsRef.current.length - 1) {
           buttonsRef.current[currentIndex + 1].focus();
           buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });

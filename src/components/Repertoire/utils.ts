@@ -30,17 +30,17 @@ export const handleKeyDown = (
     if (currentIndex === -1) return; // Add this check to ensure currentIndex is valid
 
     switch (event.key) {
-      case footswitch.centreShort:
+      case footswitch.CENTRE_SHORT:
         buttonsRef.current[currentIndex].click();
         break;
-      case footswitch.leftShort:
+      case footswitch.LEFT_SHORT:
         if (currentIndex > 0) {
           moveFocus(buttonsRef, currentIndex, -1);
         } else if (currentIndex === 0) {
           moveFocus(buttonsRef, repertoireList.length, -1);
         }
         break;
-      case footswitch.rightShort:
+      case footswitch.RIGHT_SHORT:
         if (currentIndex < buttonsRef.current.length - 1) {
           moveFocus(buttonsRef, currentIndex, 1);
         } else if (currentIndex === buttonsRef.current.length - 1) {
@@ -49,21 +49,21 @@ export const handleKeyDown = (
           endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
         }
         break;
-      case footswitch.leftLong:
+      case footswitch.LEFT_LONG:
         if (currentIndex > 10) {
           moveFocus(buttonsRef, currentIndex, -10);
         } else {
           moveFocus(buttonsRef, 0, 0);
         }
         break;
-      case footswitch.rightLong:
+      case footswitch.RIGHT_LONG:
         if (currentIndex + 10 < buttonsRef.current.length) {
           moveFocus(buttonsRef, currentIndex, 10);
         } else {
           moveFocus(buttonsRef, buttonsRef.current.length - 1, 0);
         }
         break;
-      case footswitch.centreLong:
+      case footswitch.CENTRE_LONG:
         gig && gig.id !== 'repertoire' ? Navigate(`/setlist`) : Navigate('/');
         break;
       default:

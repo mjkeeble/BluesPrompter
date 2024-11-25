@@ -1,16 +1,16 @@
-import {FontSizeKey} from "./types";
+import { FontSizeKey } from './types';
 
 export const BREAK = 'BREAK';
 
 export const ACTIVEKEYS = ['u', 'i', 'o', 'j', 'k', 'l'];
 
 export const footswitch = {
-  leftShort: 'u',
-  centreShort: 'i',
-  rightShort: 'o',
-  leftLong: 'j',
-  centreLong: 'k',
-  rightLong: 'l',
+  LEFT_SHORT: 'u',
+  CENTRE_SHORT: 'i',
+  RIGHT_SHORT: 'o',
+  LEFT_LONG: 'j',
+  CENTRE_LONG: 'k',
+  RIGHT_LONG: 'l',
 };
 
 export const CHORDS_FIRST = 'CHORDS-FIRST';
@@ -36,7 +36,6 @@ export const MAX_LYRIC_FONT_SIZE = {
   150: { size: 150, reductionIncrement: 2 },
   250: { size: 250, reductionIncrement: 3 },
 };
-
 
 export const DEFAULT_MAX_FONT_SIZE: FontSizeKey = 150;
 export const DEFAULT_MIN_FONT_SIZE = 20;
