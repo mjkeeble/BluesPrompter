@@ -23,7 +23,8 @@ export type TSong = {
   configChordPaneSize?: number;
   pages: TLyricPage[];
   notes?: string;
-} & ({ durationMinutes?: never; durationSeconds?: never } | { durationMinutes: number; durationSeconds: number });
+  songDuration?: number; // in seconds
+};
 
 export type TLyricPage = {
   chords: string[][];
