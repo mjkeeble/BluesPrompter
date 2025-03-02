@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { ConfigContext } from '@context/configContext';
-import { DEFAULT_MAX_FONT_SIZE, DEFAULT_MIN_FONT_SIZE, FontSizeKey, MAX_LYRIC_FONT_SIZE } from 'src/const';
+import { DEFAULT_MAX_FONT_SIZE, DEFAULT_MIN_FONT_SIZE, MAX_LYRIC_FONT_SIZE } from 'src/const';
+import { FontSizeKey } from 'src/types';
 
 type TProps = {
   lyrics: string[];
