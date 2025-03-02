@@ -13,21 +13,18 @@ const getCountSymbols = (timeSignature: string): string[] => {
     case '4/4':
       return ['1', '2', '3', '4'];
     case '6/8':
-      return ['1', '.', '.', '2', '.', '.', "3", '.', '.'];
+      return ['1', '.', '.', '2', '.', '.', '3', '.', '.'];
     case '12/8':
-      return ['1', '.', '.', '2', '.', '.', "3", '.', '.', '4', '.', '.'];
+      return ['1', '.', '.', '2', '.', '.', '3', '.', '.', '4', '.', '.'];
     default:
       return ['1', '2', '3', '4'];
   }
-}
-
-
+};
 
 const CountIn: React.FC<TProps> = ({ tempo, timeSignature }) => {
   const [activesymbol, setActiveSymbol] = useState<number>(0);
   const countSymbols = getCountSymbols(timeSignature);
-  const countTempoMultiple = 
-  ['6/8', '12/8'].includes(timeSignature) ?  3 :  1;
+  const countTempoMultiple = ['6/8', '12/8'].includes(timeSignature) ? 3 : 1;
   const beatDuration = 60000 / (tempo * countTempoMultiple); // Duration of a single beat in ms
 
   useEffect(() => {
@@ -45,8 +42,8 @@ const CountIn: React.FC<TProps> = ({ tempo, timeSignature }) => {
           key={index}
           className={
             index === activesymbol
-              ? 'transition-all duration-300 grow font-semibold text-countin bg-bj-green-light text-black'
-              : 'transition-all grow font-semibold text-countin text-bj-white'
+              ? 'box-border grow rounded-[3rem] border-[16px] border-bj-green-light text-countin font-semibold text-bj-white transition-all duration-300'
+              : 'box-border grow rounded-[3rem]  border-[16px] border-black text-countin font-semibold text-bj-white transition-all'
           }
         >
           {symbol}
