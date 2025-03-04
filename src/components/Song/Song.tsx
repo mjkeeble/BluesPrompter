@@ -25,6 +25,11 @@ const Song = () => {
   }, [id]);
 
   useEffect(() => {
+    // Reset currentPage to 0 when id changes
+    setCurrentPage(0);
+  }, [id]);
+
+  useEffect(() => {
     const searchIndex = setlist[setlistIndex];
 
     const getAndSaveSong = async () => {

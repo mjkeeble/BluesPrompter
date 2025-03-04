@@ -7,8 +7,9 @@ export const fetchScreenSplit = (screenSplit: number | undefined, pageHasChords:
 
 export const fetchSong = async (id: number) => {
   try {
-    const response: TSong = await (await fetch(`http://localhost:3000/songs/${id}`)).json();
-    return response;
+    const response = await fetch(`http://localhost:3000/songs/${id}`);
+    const data: TSong = await response.json();
+    return data;
   } catch (error) {
     console.error('Error fetching song', error);
     return null;
