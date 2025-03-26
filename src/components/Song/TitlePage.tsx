@@ -28,7 +28,7 @@ const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes,
               <p className="text-lyric">{setup}</p>
             </div>
           ) : null}
-          {notes ? <p className="text-7xl text-bj-green-light">{notes}</p> : null}
+          {notes ? <RenderSongNotes notes={notes} /> : null}
           <div>{tempo && timeSignature ? <CountIn tempo={tempo} timeSignature={timeSignature} /> : null}</div>
         </div>
       </div>
@@ -42,5 +42,19 @@ const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes,
     </div>
   );
 };
+
+const RenderSongNotes: React.FC<{notes: string}> = ({notes}) => {
+  return (
+    <p className="text-7xl text-bj-green-light">
+      {notes.split("\n").map((line, index) => (
+        <span key={index}>
+          {line}
+          <br />
+        </span>
+      ))}
+    </p>
+  );
+};
+  
 
 export default TitlePage;
