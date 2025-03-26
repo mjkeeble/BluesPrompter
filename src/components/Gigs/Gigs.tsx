@@ -37,7 +37,7 @@ const Gigs = () => {
       gigDate.setHours(0, 0, 0, 0); // Normalize gig date
 
       // If gigDate is today or before today and closer to today than the current acc
-      if (gigDate <= today && (acc === -1 || gigDate > new Date(gigs[acc].dateTime))) {
+      if (gigDate >= today && (acc === -1 || gigDate < new Date(gigs[acc].dateTime))) {
         return index;
       }
       return acc;
