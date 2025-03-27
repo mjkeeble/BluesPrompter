@@ -22,8 +22,11 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
     return <div>Error: Page data not found</div>;
   }
 
-  const pageHasProgressBar: boolean =
-    !!currentPageData && !!song.tempo && !!song.timeSignature && !!currentPageData.duration;
+  
+  // NOTE: Progress bar is currently
+  // TODO: Add progress bar activation toggle to config
+  const pageHasProgressBar: boolean = false
+    // !!currentPageData && !!song.tempo && !!song.timeSignature && !!currentPageData.duration;
   const pageHasChords: boolean = !!currentPageData.chords.length;
   const lyricBoxHeight = pageHasProgressBar ? '100vh - 84px' : '100vh - 60px';
 
