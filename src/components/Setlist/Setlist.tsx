@@ -37,16 +37,6 @@ const Setlist = () => {
   }, []);
 
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      setIsLoaded(true);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, []);
-
-  useEffect(() => {
     const getAndStoreSongs = async () => {
       const songIds = setlist.filter((songId: number | TBreak) => songId !== BREAK);
 
@@ -64,6 +54,7 @@ const Setlist = () => {
       });
 
       setSongs(extractedSongs);
+      setIsLoaded(true);
     };
 
     getAndStoreSongs();
@@ -132,7 +123,7 @@ const Setlist = () => {
             if (!song) {
               return (
                 <li key={index}>
-                  <span>Song not found</span>
+                  {isLoaded ? null : <span>Song not found</span>}
                 </li>
               );
             }
