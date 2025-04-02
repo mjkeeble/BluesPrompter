@@ -53,22 +53,34 @@ const Gigs = () => {
 
   const handleKeyDown = (event: { key: string }) => {
     const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
-    if (event.key === footswitch.CENTRE_SHORT) {
-      const element = document.documentElement;
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
+
+    switch (event.key) {
+      case footswitch.CENTRE_SHORT: {
+        const element = document.documentElement;
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        }
+        buttonsRef.current[currentIndex].click();
+        break;
       }
-      buttonsRef.current[currentIndex].click();
-    } else if (event.key === footswitch.LEFT_SHORT && currentIndex > 0) {
-      buttonsRef.current[currentIndex - 1].focus();
-      buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else if (event.key === footswitch.RIGHT_SHORT) {
-      if (currentIndex < buttonsRef.current.length - 1) {
-        buttonsRef.current[currentIndex + 1].focus();
-        buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else if (endOfListRef.current) {
-        endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
+      case footswitch.LEFT_SHORT: {
+        if (currentIndex > 0) {
+          buttonsRef.current[currentIndex - 1].focus();
+          buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        break;
       }
+      case footswitch.RIGHT_SHORT: {
+        if (currentIndex < buttonsRef.current.length - 1) {
+          buttonsRef.current[currentIndex + 1].focus();
+          buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (endOfListRef.current) {
+          endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+        break;
+      }
+      default:
+        break;
     }
   };
 
@@ -120,7 +132,7 @@ const GigButton = forwardRef<HTMLButtonElement, TProps>(({ classes, text, onclic
   return (
     <button
       ref={ref}
-      className={`my-2 w-2/3 rounded-full border-none p-2 px-6 text-center text-7xl transition-colors duration-300 ease-in-out focus:bg-bj-green-mid focus:text-bj-white focus:outline-none focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2 ${classes}`}
+      className={`my-2 w-2/3 rounded-full border-none p-2 px-6 text-center text-5xl transition-colors duration-300 ease-in-out focus:bg-bj-green-mid focus:text-bj-white focus:outline-none focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2 ${classes}`}
       onClick={onclick}
     >
       {text}

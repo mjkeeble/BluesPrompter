@@ -69,23 +69,34 @@ const Setlist = () => {
     getAndStoreSongs();
   }, [setlist]);
 
+  // TODO: move this to utils
   const handleKeyDown = (event: { key: string }) => {
     if (isLoaded) {
       const currentIndex = buttonsRef.current.findIndex((button) => button === document.activeElement);
-      if (event.key === footswitch.CENTRE_LONG) {
-        Navigate('/');
-      } else if (event.key === footswitch.CENTRE_SHORT) {
-        buttonsRef.current[currentIndex].click();
-      } else if (event.key === footswitch.LEFT_SHORT && currentIndex > 0) {
-        buttonsRef.current[currentIndex - 1].focus();
-        buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else if (event.key === footswitch.RIGHT_SHORT) {
-        if (currentIndex < buttonsRef.current.length - 1) {
-          buttonsRef.current[currentIndex + 1].focus();
-          buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (endOfListRef.current) {
-          endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
+
+      switch (event.key) {
+        case footswitch.CENTRE_LONG:
+          Navigate('/');
+          break;
+        case footswitch.CENTRE_SHORT:
+          buttonsRef.current[currentIndex].click();
+          break;
+        case footswitch.LEFT_SHORT:
+          if (currentIndex > 0) {
+            buttonsRef.current[currentIndex - 1].focus();
+            buttonsRef.current[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          break;
+        case footswitch.RIGHT_SHORT:
+          if (currentIndex < buttonsRef.current.length - 1) {
+            buttonsRef.current[currentIndex + 1].focus();
+            buttonsRef.current[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else if (endOfListRef.current) {
+            endOfListRef.current.scrollIntoView({ behavior: 'smooth' });
+          }
+          break;
+        default:
+          break;
       }
     }
   };
