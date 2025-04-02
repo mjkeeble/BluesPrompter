@@ -61,17 +61,12 @@ const Repertoire = () => {
   const endOfListRef = useRef<HTMLDivElement | null>(null);
 
   const handleSelectSong = (id: number) => {
-    let storageUpdateDebounce: NodeJS.Timeout | null = null;
 
     if (setGig) {
       setGig({ ...repertoireGig, setlist: [[Number(id)]] });
     }
 
-    fetchSongs();
-    if (storageUpdateDebounce) clearTimeout(storageUpdateDebounce);
-    storageUpdateDebounce = setTimeout(() => {
       Navigate(`/song/0`);
-    }, 500);
   };
 
   return (
