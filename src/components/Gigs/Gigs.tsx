@@ -92,8 +92,8 @@ const Gigs = () => {
   };
 
   return (
-    <div className="overflow-y-hidden">
-      <div onKeyDown={handleKeyDown} tabIndex={0}>
+    <div className=" flex flex-col items-center overflow-y-hidden">
+      <div className="w-3/4" onKeyDown={handleKeyDown} tabIndex={0}>
         <h1 className="my-5 font-fredericka text-7xl text-bj-white">Gigs</h1>
         <ul className="mb-20 mt-8">
           {gigs.map((gigFromList: TGig, index) => (
@@ -102,16 +102,18 @@ const Gigs = () => {
                 ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}
                 classes={`${getDateBasedStyling(gigFromList.dateTime)}`}
                 onclick={() => handleSelectGig(gigFromList)}
-                text={`${displayDate(gigFromList.dateTime)}, ${gigFromList.venue}, ${gigFromList.town}`}
+                date={`${displayDate(gigFromList.dateTime)}`}
+                location={`${gigFromList.venue}, ${gigFromList.town}`}
               />
             </li>
           ))}
           <li key="repertoire">
             <GigButton
               ref={(el: HTMLButtonElement) => (buttonsRef.current[gigs.length] = el)}
-              classes="bg-bj-blue-dark text-bj-blue-light"
+              classes="bg-bj-blue-dark text-bj-blue-light border-5 border-bj-white"
+              date=""
               onclick={() => Navigate(`/repertoire/`)}
-              text="Repertoire"
+              location="Repertoire"
             />
           </li>
           <div ref={endOfListRef} />
@@ -122,20 +124,18 @@ const Gigs = () => {
   );
 };
 
-type TProps = {
-  classes: string;
-  text: string;
-  onclick?: () => void;
-};
+type TProps = { classes: string; date: string; location: string; onclick?: () => void };
 
-const GigButton = forwardRef<HTMLButtonElement, TProps>(({ classes, text, onclick }, ref) => {
+const GigButton = forwardRef<HTMLButtonElement, TProps>(({ classes, date, location, onclick }, ref) => {
   return (
     <button
       ref={ref}
-      className={`my-2 w-2/3 rounded-full border-none p-2 px-6 text-center text-5xl transition-colors duration-300 ease-in-out focus:bg-bj-green-mid focus:text-bj-white focus:outline-none focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2 ${classes}`}
+      className={`border-5 my-2 flex w-full flex-row rounded-full border-bj-white p-2 px-6 text-5xl transition-colors duration-300 ease-in-out focus:bg-bj-green-mid focus:text-bj-white focus:outline-none focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2  ${classes}`}
       onClick={onclick}
     >
-      {text}
+      <div className="text-left">{date}</div>
+      <div className="flex-grow text-center">{location === 'Repertoire' ? location : ''}</div>
+      <div className="text-right">{location !== 'Repertoire' ? location : ''}</div>
     </button>
   );
 });
