@@ -39,7 +39,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
   }, []);
 
   if (!config) {
-    return <div>Loading config...</div>;
+    return <div>Loading configuration...</div>;
   }
 
   return <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>;
