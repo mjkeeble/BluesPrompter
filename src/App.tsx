@@ -5,7 +5,7 @@ import 'src/App.css';
 
 const App = () => {
   return (
-    <div id="App" className="cursor-none overflow-y-hidden text-bj-white">
+    <div id="App" className="w-full h-full bg-bj-black cursor-none overflow-y-hidden text-bj-white">
       <ConfigProvider>
         <GigProvider>
           <Routes>

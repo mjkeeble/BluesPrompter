@@ -95,7 +95,7 @@ const Setlist = () => {
   const endOfListRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div>
+    <div className="h-full overflow-y-hidden">
       <div onKeyDown={handleKeyDown} tabIndex={0}>
         <h1 className="my-5 font-fredericka text-7xl text-bj-white">Set List</h1>
         {gig ? (
@@ -121,11 +121,7 @@ const Setlist = () => {
             const song: TSongData | undefined = songs.find((song) => Number(song.id) === songId);
 
             if (!song) {
-              return (
-                <li key={index}>
-                  {isLoaded ? null : <span>Song not found</span>}
-                </li>
-              );
+              return <li key={index}>{isLoaded ? null : <span>Song not found</span>}</li>;
             }
 
             return (
