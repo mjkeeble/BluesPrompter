@@ -2,7 +2,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { TSong } from 'src/types';
 
 export const fetchScreenSplit = (screenSplit: number | undefined, pageHasChords: boolean): number => {
-  return !pageHasChords ? 1 : Number(screenSplit || 6);
+  return !pageHasChords ? 0 : Number(screenSplit || 6);
 };
 
 export const fetchSong = async (id: number) => {

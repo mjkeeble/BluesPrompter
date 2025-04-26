@@ -16,13 +16,13 @@ const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes,
 
   return (
     <div className="flex h-screen w-full flex-col overflow-hidden px-8 py-8">
-      <header className=" m-2 flex items-start justify-between text-4xl ">
-        <h1 className="text-left">{title}</h1>
+      <header className=" m-2 flex items-start justify-between text-3xl ">
+        <h1 className="mr-2 text-left">{title}</h1>
         <h2>{currentTime}</h2>
       </header>
       <div className="flex h-full items-center justify-center">
-        <div className="w-full text-center text-lyric">
-          {scale ? <p>Key: {scale}</p> : null}
+        <div className="w-full text-center">
+          {scale ? <p className="text-lyric">Key: {scale}</p> : null}
           {setup ? (
             <div className="flex h-full w-full items-center justify-center">
               <p className="text-lyric">{setup}</p>
@@ -43,10 +43,10 @@ const TitlePage: React.FC<TProps> = ({ title, scale: scale, setup, tempo, notes,
   );
 };
 
-const RenderSongNotes: React.FC<{notes: string}> = ({notes}) => {
+const RenderSongNotes: React.FC<{ notes: string }> = ({ notes }) => {
   return (
-    <p className="text-7xl text-bj-green-light">
-      {notes.split("\n").map((line, index) => (
+    <p className="text-lyric text-bj-green-light">
+      {notes.split('\n').map((line, index) => (
         <span key={index}>
           {line}
           <br />
@@ -55,6 +55,5 @@ const RenderSongNotes: React.FC<{notes: string}> = ({notes}) => {
     </p>
   );
 };
-  
 
 export default TitlePage;

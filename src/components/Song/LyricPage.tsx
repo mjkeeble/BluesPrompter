@@ -22,18 +22,14 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
     return <div>Error: Page data not found</div>;
   }
 
-  
-  // NOTE: Progress bar is currently
+  // NOTE: Progress bar is currently deactivated
   // TODO: Add progress bar activation toggle to config
-  const pageHasProgressBar: boolean = false
-    // !!currentPageData && !!song.tempo && !!song.timeSignature && !!currentPageData.duration;
+  const pageHasProgressBar: boolean = false;
+  // !!currentPageData && !!song.tempo && !!song.timeSignature && !!currentPageData.duration;
   const pageHasChords: boolean = !!currentPageData.chords.length;
-  const lyricBoxHeight = pageHasProgressBar ? '100vh - 84px' : '100vh - 60px';
+  const lyricBoxHeight = pageHasProgressBar ? '100vh - 84px' : pageHasChords ? '100vh' : '100vh - 125px';
 
-  const screenSplit = fetchScreenSplit(
-    song.configChordPaneSize || config?.chordPaneSize,
-    pageHasChords,
-  );
+  const screenSplit = fetchScreenSplit(song.configChordPaneSize || config?.chordPaneSize, pageHasChords);
 
   return (
     <div className="flex h-screen flex-col overflow-y-hidden">
@@ -75,7 +71,7 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
           />
         </div>
         <div
-          className={`col-span-${10 - screenSplit} overflow-y-clip px-4`}
+          className={`col-span-${10 - screenSplit} overflow-y-clip border border-red-title px-4`}
           style={{ height: `calc(${lyricBoxHeight})` }}
         >
           <Lyrics lyrics={currentPageData.lyrics} />
