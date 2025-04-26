@@ -6,6 +6,7 @@ import { footswitch } from 'src/const';
 import { TGig } from 'src/types';
 import { displayDate } from 'src/utils';
 import { fetchGigs, getDateBasedStyling } from './utils';
+import {GigContext} from '@context/gigContextDefinition';
 
 const Gigs = () => {
   const Navigate = useNavigate();
