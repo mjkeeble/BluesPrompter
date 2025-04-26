@@ -1,4 +1,4 @@
-import { ConfigContext } from '@context/configContext';
+import { ConfigContext } from '@context/configContextDefinition';
 import { useContext } from 'react';
 import { TSong } from 'src/types';
 import Chords from './Chords';

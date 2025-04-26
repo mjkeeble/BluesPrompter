@@ -1,5 +1,5 @@
 import { Screensaver } from '@components/index.ts';
-import { GigContext } from '@context/index.ts';
+import { GigContext } from '@context/gigContextDefinition';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ACTIVEKEYS, BREAK } from 'src/const.ts';

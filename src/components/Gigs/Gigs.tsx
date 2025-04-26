@@ -1,6 +1,5 @@
 // import { storeSetlist } from '@context/index';
 import { NavIndicator } from '@components/index';
-import { GigContext } from '@context/index';
 import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { footswitch } from 'src/const';

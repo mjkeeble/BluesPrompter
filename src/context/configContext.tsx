@@ -1,6 +1,7 @@
 // ConfigContext.tsx
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { TConfig } from 'src/types';
+import { ConfigContext } from './configContextDefinition';
 
 interface ConfigProviderProps {
   children: ReactNode;
@@ -16,9 +17,7 @@ const fetchConfig = async (): Promise<TConfig[] | null> => {
   }
 };
 
-export const ConfigContext = createContext<TConfig | null>(null);
-
-export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
+export const ConfigContextProvider: React.FC<ConfigProviderProps> = ({ children }) => {
   const [config, setConfig] = useState<TConfig | null>(null);
 
   useEffect(() => {

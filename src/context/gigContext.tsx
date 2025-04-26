@@ -1,28 +1,23 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import { TGig, TSetlist } from 'src/types';
+import { ReactNode, useEffect, useState } from 'react';
+import { TGig } from 'src/types';
 import { flattenSetlist } from 'src/utils';
+import { GigContext } from './gigContextDefinition';
 
 interface ConfigProviderProps {
   children: ReactNode;
 }
 
-interface GigContextType {
-  gig: TGig | undefined;
-  setGig: (gig: TGig) => void;
-  setlist: TSetlist;
-}
-
-export const GigContext = createContext<GigContextType | undefined>(undefined);
-
-export const GigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
+export const GigContextProvider: React.FC<ConfigProviderProps> = ({ children }) => {
   const [gig, setGigState] = useState<TGig | undefined>(() => {
     const storedGig = localStorage.getItem('gig');
     return storedGig ? JSON.parse(storedGig) : undefined;
   });
 
   const setGig = (newGig: TGig) => {
+    console.info('Setting gig:', newGig);
     setGigState(newGig);
     localStorage.setItem('gig', JSON.stringify(newGig));
+    console.info('Gig saved to localStorage:', localStorage.getItem('gig'));
   };
 
   useEffect(() => {

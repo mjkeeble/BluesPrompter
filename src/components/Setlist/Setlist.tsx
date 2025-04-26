@@ -1,5 +1,5 @@
 import { NavIndicator, SongListButton } from '@components/index';
-import { GigContext } from '@context/index';
+import { GigContext } from '@context/gigContextDefinition';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BREAK, footswitch } from 'src/const';

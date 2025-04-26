@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { ConfigContext } from '@context/configContext';
+import { ConfigContext } from '@context/configContextDefinition';
 import { DEFAULT_MAX_FONT_SIZE, DEFAULT_MIN_FONT_SIZE, MAX_LYRIC_FONT_SIZE } from 'src/const';
 import { FontSizeKey } from 'src/types';
 

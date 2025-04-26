@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { NavIndicator } from '@components/index';
-import { ConfigContext } from '@context/configContext';
+import { ConfigContext } from '@context/configContextDefinition';
 import {TEXT_XL} from 'src/const';
 import {TTextSizes} from 'src/types';
 
