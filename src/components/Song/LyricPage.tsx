@@ -71,7 +71,7 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
           />
         </div>
         <div
-          className={`col-span-${10 - screenSplit} overflow-y-clip border border-red-title px-4`}
+          className={`col-span-${10 - screenSplit} overflow-y-clip px-4`}
           style={{ height: `calc(${lyricBoxHeight})` }}
         >
           <Lyrics lyrics={currentPageData.lyrics} />
