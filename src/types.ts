@@ -5,11 +5,11 @@ export type TGig = {
   venue: string;
   town: string;
   dateTime: string;
-  setlist: number[][];
+  setlist: string[][];
 };
 
 export type TSong = {
-  id: number;
+  id: string;
   title: string;
   version?: string;
   writtenBy: string[];
@@ -40,7 +40,7 @@ export type TAction = {
 
 export type TBreak = typeof BREAK;
 
-export type TSetlist = (number | TBreak)[];
+export type TSetlist = (string | TBreak)[];
 
 export type TInput = (typeof ACTIVEKEYS)[number] | null;
 

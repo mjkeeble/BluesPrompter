@@ -30,11 +30,11 @@ const Song = () => {
   }, [id]);
 
   useEffect(() => {
-    const searchIndex = setlist[setlistIndex];
+    const songId = setlist[setlistIndex];
 
     const getAndSaveSong = async () => {
-      if (searchIndex !== BREAK && (!song || song.id != searchIndex)) {
-        const fetchedSong = await fetchSong(searchIndex);
+      if (songId !== BREAK && (!song || song.id != songId)) {
+        const fetchedSong = await fetchSong(songId);
         if (!fetchedSong) {
           console.error('No song found');
           return;

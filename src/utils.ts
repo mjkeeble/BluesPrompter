@@ -39,10 +39,10 @@ export const validateDuration = (minutes: number, seconds: number): boolean => {
  * Each sub-array is prefixed with a BREAK element and the final array is also suffixed with a BREAK element.
  **/
 
-export const flattenSetlist = (setlist: number[][]): TSetlist => {
+export const flattenSetlist = (setlist: string[][]): TSetlist => {
   setlist = setlist.filter((subArray) => subArray.length > 0);
   if (setlist.length === 0) return [BREAK as TBreak];
   if (setlist.length === 1 && setlist[0].length === 1) return [setlist[0][0]];
 
-  return setlist.flatMap((subArray) => [BREAK as TBreak, ...subArray.map(Number)]).concat([BREAK as TBreak]);
+  return setlist.flatMap((subArray) => [BREAK as TBreak, ...subArray.map(String)]).concat([BREAK as TBreak]);
 };

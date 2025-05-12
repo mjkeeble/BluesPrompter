@@ -8,7 +8,7 @@ import { displayDate } from 'src/utils';
 import { fetchSongs } from './utils';
 
 export type TSongData = {
-  id: number;
+  id: string;
   title: string;
   version?: string;
 };
@@ -38,12 +38,12 @@ const Setlist = () => {
 
   useEffect(() => {
     const getAndStoreSongs = async () => {
-      const songIds = setlist.filter((songId: number | TBreak) => songId !== BREAK);
+      const songIds = setlist.filter((songId: string | TBreak) => songId !== BREAK);
 
       const getSongs = await fetchSongs(songIds);
       const extractedSongs = getSongs.map((song) => {
         if (song === 'Song not found') {
-          return { id: 0, title: 'Song not found' };
+          return { id: "Error", title: 'Song not found' };
         } else {
           return {
             id: song.id,
@@ -105,7 +105,7 @@ const Setlist = () => {
         ) : null}
 
         <ul className="mb-20 mt-8">
-          {setlist.map((songId: number | TBreak, index: number) => {
+          {setlist.map((songId: string | TBreak, index: number) => {
             if (songId === BREAK)
               return (
                 <li key={index}>
@@ -118,7 +118,7 @@ const Setlist = () => {
                 </li>
               );
 
-            const song: TSongData | undefined = songs.find((song) => Number(song.id) === songId);
+            const song: TSongData | undefined = songs.find((song) => song.id === songId);
 
             if (!song) {
               return <li key={index}>{isLoaded ? null : <span>Song not found</span>}</li>;

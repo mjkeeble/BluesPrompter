@@ -5,7 +5,7 @@ export const fetchScreenSplit = (screenSplit: number | undefined, pageHasChords:
   return !pageHasChords ? 0 : Number(screenSplit || 6);
 };
 
-export const fetchSong = async (id: number) => {
+export const fetchSong = async (id: string) => {
   try {
     const response = await fetch(`http://localhost:3000/songs/${id}`);
     const data: TSong = await response.json();

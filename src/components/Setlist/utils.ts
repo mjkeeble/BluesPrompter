@@ -1,7 +1,7 @@
 import { TSong } from 'src/types';
 import { TSongData } from './Setlist';
 
-export const fetchSongs = async (ids: number[]): Promise<(TSongData | 'Song not found')[]> => {
+export const fetchSongs = async (ids: string[]): Promise<(TSongData | 'Song not found')[]> => {
   try {
     const songs = await Promise.all(
       ids.map(async (id) => {

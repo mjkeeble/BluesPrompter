@@ -60,10 +60,10 @@ const Repertoire = () => {
 
   const endOfListRef = useRef<HTMLDivElement | null>(null);
 
-  const handleSelectSong = (id: number) => {
+  const handleSelectSong = (id: string) => {
 
     if (setGig) {
-      setGig({ ...repertoireGig, setlist: [[Number(id)]] });
+      setGig({ ...repertoireGig, setlist: [[id]] });
     }
 
       Navigate(`/song/0`);
