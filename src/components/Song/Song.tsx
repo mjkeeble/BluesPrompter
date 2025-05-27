@@ -88,6 +88,7 @@ const Song = () => {
       {song && !currentPage ? (
         <TitlePage
           title={song.title}
+          version={song.version}
           scale={song.scale}
           setup={song.setup}
           tempo={song.tempo}
