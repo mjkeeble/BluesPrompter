@@ -17,7 +17,7 @@ const IMAGE_DURATION = 30; // seconds
 const Screensaver: React.FC<TProps> = ({ isStart, isLastSong }) => {
   // TODO: make band logo a config and import here
   const images: TImage[] = [
-    { src: '/blues-jab-logo.png', alt: 'Blues Jab - Boy Band of the Blues', text: '' },
+    { src: '/blues_jab_logo.svg', alt: 'Blues Jab - Boy Band of the Blues', text: '' },
     { src: '/bp_icon_with_text_inkscape.svg', alt: 'Blues Prompter. Your songs. Your stage. No worries', text: '' },
   ];
 

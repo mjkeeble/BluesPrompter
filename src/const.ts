@@ -14,7 +14,6 @@ export const footswitch = {
 };
 
 export const CHORDS_FIRST = 'CHORDS-FIRST';
-export const CHORDS_INLINE = 'CHORDS-INLINE';
 export const LYRICS_FIRST = 'LYRICS-FIRST';
 
 // TODO: add inline chords to modes
