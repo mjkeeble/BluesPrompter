@@ -130,6 +130,7 @@ const Setlist = () => {
                   ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}
                   onclick={() => Navigate(`/song/${index}`)}
                   title={song.title}
+                  version={song.version}
                 />
               </li>
             );
