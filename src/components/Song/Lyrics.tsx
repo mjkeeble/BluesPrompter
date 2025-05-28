@@ -51,7 +51,7 @@ const Lyrics: React.FC<TProps> = ({ lyrics }) => {
   if (!lyrics.length) return <NoLyricsMessage />;
 
   return (
-    <div ref={containerRef} className="max-h-full overflow-y-auto">
+    <div ref={containerRef} className="max-h-full overflow-y-hidden">
       {' '}
       {lyrics.map((line, index) => (
         <p

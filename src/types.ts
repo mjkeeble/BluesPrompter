@@ -57,6 +57,7 @@ export type TConfig = {
   chordFontSize?: TTextSizes; // size of chord text
   lyricMinFontSize: number; // min size of lyric text
   lyricMaxFontSize: 100 | 150 | 250; // max size of lyric text
+  navIndicatorOnRight: boolean; // position of nav indicator
 };
 
 export type symbolKeys =

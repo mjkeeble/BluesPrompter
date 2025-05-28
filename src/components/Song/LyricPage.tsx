@@ -6,6 +6,7 @@ import Lyrics from './Lyrics';
 import ProgressBar from './ProgressBar';
 import PageTitle from './SectionTitle';
 import { fetchScreenSplit } from './utils';
+import {NavIndicator} from '@components/NavIndicator';
 
 type TProps = {
   song: TSong;
@@ -17,6 +18,8 @@ type TProps = {
 const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerHalted }) => {
   const config = useContext(ConfigContext);
   const currentPageData = song.pages[currentPage - 1];
+  const isLastPage = currentPage === song.pages.length;
+  const hasTimer = song.tempo && song.timeSignature && currentPageData.duration;
 
   if (!currentPageData) {
     return <div>Error: Page data not found</div>;
@@ -30,6 +33,12 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
   const lyricBoxHeight = pageHasProgressBar ? '100vh - 84px' : pageHasChords ? '100vh' : '100vh - 125px';
 
   const screenSplit = fetchScreenSplit(song.configChordPaneSize || config?.chordPaneSize, pageHasChords);
+
+  const progressIndicatorControlIcon = (): 'pause' | 'play' | undefined => {
+    if (isLastPage) return undefined;
+    if (hasTimer && timerHalted) return 'play';
+    if (hasTimer) return 'pause';
+  };
 
   return (
     <div className="flex h-screen flex-col overflow-y-hidden">
@@ -53,7 +62,7 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
         />
       )}
 
-      <div className="grid flex-1 grid-cols-10 divide-x overflow-y-auto">
+      <div className={`grid flex-1 grid-cols-10 ${pageHasChords ? 'divide-x' : null} overflow-y-auto`}>
         <div className={`col-span-${screenSplit} p-4`}>
           {pageHasChords ? (
             <PageTitle
@@ -63,12 +72,7 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
               pageHasChords={pageHasChords}
             />
           ) : null}
-          <Chords
-            chords={currentPageData.chords}
-            isLastPage={currentPage === song.pages.length}
-            timerHalted={timerHalted}
-            hasTimer={!!currentPageData.duration}
-          />
+          <Chords chords={currentPageData.chords} />
         </div>
         <div
           className={`col-span-${10 - screenSplit} overflow-y-clip px-4`}
@@ -77,6 +81,15 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
           <Lyrics lyrics={currentPageData.lyrics} />
         </div>
       </div>
+      <NavIndicator
+        leftShort="backward"
+        centreShort={progressIndicatorControlIcon()}
+        rightShort={isLastPage ? 'forwardStep' : 'play'}
+        leftLong="backwardStep"
+        centreLong="reload"
+        rightLong={isLastPage ? undefined : 'forwardStep'}
+        locateRight={config?.navIndicatorOnRight || !pageHasChords}
+      />
     </div>
   );
 };

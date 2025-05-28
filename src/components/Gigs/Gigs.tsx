@@ -1,12 +1,12 @@
 // import { storeSetlist } from '@context/index';
 import { NavIndicator } from '@components/index';
+import { GigContext } from '@context/gigContextDefinition';
 import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { footswitch } from 'src/const';
 import { TGig } from 'src/types';
 import { displayDate } from 'src/utils';
 import { fetchGigs, getDateBasedStyling } from './utils';
-import {GigContext} from '@context/gigContextDefinition';
 
 const Gigs = () => {
   const Navigate = useNavigate();
@@ -92,32 +92,34 @@ const Gigs = () => {
   };
 
   return (
-    <div className=" flex flex-col items-center overflow-y-hidden">
-      <div className="w-3/4" onKeyDown={handleKeyDown} tabIndex={0}>
-        <h1 className="my-5 font-fredericka text-7xl text-bj-white">Gigs</h1>
-        <ul className="mb-20 mt-8">
-          {gigs.map((gigFromList: TGig, index) => (
-            <li key={gigFromList.id}>
+    <div className="w-full overflow-x-hidden">
+      <div className=" flex flex-col items-center overflow-y-hidden">
+        <div className="w-3/4" onKeyDown={handleKeyDown} tabIndex={0}>
+          <h1 className="my-5 font-fredericka text-7xl text-bj-white">Gigs</h1>
+          <ul className="mb-20 mt-8">
+            {gigs.map((gigFromList: TGig, index) => (
+              <li key={gigFromList.id}>
+                <GigButton
+                  ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}
+                  classes={`${getDateBasedStyling(gigFromList.dateTime)}`}
+                  onclick={() => handleSelectGig(gigFromList)}
+                  date={`${displayDate(gigFromList.dateTime)}`}
+                  location={`${gigFromList.venue}, ${gigFromList.town}`}
+                />
+              </li>
+            ))}
+            <li key="repertoire">
               <GigButton
-                ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}
-                classes={`${getDateBasedStyling(gigFromList.dateTime)}`}
-                onclick={() => handleSelectGig(gigFromList)}
-                date={`${displayDate(gigFromList.dateTime)}`}
-                location={`${gigFromList.venue}, ${gigFromList.town}`}
+                ref={(el: HTMLButtonElement) => (buttonsRef.current[gigs.length] = el)}
+                classes="bg-bj-blue-dark text-bj-blue-light border-5 border-bj-white"
+                date=""
+                onclick={() => Navigate(`/repertoire/`)}
+                location="Repertoire"
               />
             </li>
-          ))}
-          <li key="repertoire">
-            <GigButton
-              ref={(el: HTMLButtonElement) => (buttonsRef.current[gigs.length] = el)}
-              classes="bg-bj-blue-dark text-bj-blue-light border-5 border-bj-white"
-              date=""
-              onclick={() => Navigate(`/repertoire/`)}
-              location="Repertoire"
-            />
-          </li>
-          <div ref={endOfListRef} />
-        </ul>
+            <div ref={endOfListRef} />
+          </ul>
+        </div>
       </div>
       <NavIndicator leftShort="up" centreShort="point" rightShort="down" />
     </div>
