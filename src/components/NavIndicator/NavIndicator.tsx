@@ -1,3 +1,4 @@
+import { ConfigContext } from '@context/configContextDefinition';
 import {
   IconDefinition,
   faArrowRotateRight,
@@ -10,11 +11,13 @@ import {
   faHandPointer,
   faMinus,
   faPause,
+  faPencil,
   faPlay,
   faUpLong,
   faX,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext } from 'react';
 import { symbolKeys } from 'src/types';
 
 type TProps = {
@@ -24,6 +27,7 @@ type TProps = {
   centreLong?: symbolKeys;
   rightShort?: symbolKeys;
   rightLong?: symbolKeys;
+  locateRight?: boolean;
 };
 
 const symbols: { [key: string]: IconDefinition } = {
@@ -31,6 +35,7 @@ const symbols: { [key: string]: IconDefinition } = {
   backwardFast: faBackwardFast,
   backwardStep: faBackwardStep,
   down: faDownLong,
+  edit: faPencil,
   eject: faEject,
   forwardStep: faForwardStep,
   pause: faPause,
@@ -43,7 +48,16 @@ const symbols: { [key: string]: IconDefinition } = {
   x: faX,
 };
 
-const NavIndicator: React.FC<TProps> = ({ leftLong, leftShort, centreLong, centreShort, rightLong, rightShort }) => {
+const NavIndicator: React.FC<TProps> = ({
+  leftLong,
+  leftShort,
+  locateRight,
+  centreLong,
+  centreShort,
+  rightLong,
+  rightShort,
+}) => {
+  const config = useContext(ConfigContext);
   const showShort = leftShort || centreShort || rightShort;
   const showLong = leftLong || centreLong || rightLong;
   const rows = (showLong ? 1 : 0) + (showShort ? 1 : 0);
@@ -51,7 +65,9 @@ const NavIndicator: React.FC<TProps> = ({ leftLong, leftShort, centreLong, centr
   if (!rows) return <></>;
 
   return (
-    <div className={`fixed bottom-0 left-0 m-1 rounded-lg border-2 bg-black py-2 text-3xl`}>
+    <div
+      className={`fixed bottom-0 ${config?.navIndicatorOnRight || locateRight ? 'right-0' : 'left-0'} m-1 rounded-lg border-2 bg-black py-2 text-3xl`}
+    >
       {showShort ? (
         <div className="grid grid-cols-3">
           <FontAwesomeIcon
