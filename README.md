@@ -1,4 +1,4 @@
-<img src='public/BluesPrompter_logo_new4.png'
+<img src='public/bp_logo_inkscape.svg'
 alt='BluesPropmpter logo'
 style='width: 30%; margin-bottom: 4rem;' />
 
