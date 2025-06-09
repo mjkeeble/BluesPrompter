@@ -2,8 +2,11 @@
 alt='BluesPropmpter logo'
 style='width: 30%; margin-bottom: 4rem;' />
 
+#Welcome to BluesPrompter#
+
 **BluesPrompter** is a stage teleprompter app specifically for gigging musicians. No need to worry about forgetting chords or lyrics, no messing around with music stands, sheaves of paper or tablet mounts - it's all there on the screen in front of you.
 
+##A new version of BluesPrompter is currently under development as an Electron app.## 
 Currently the app is written to run as a local web app, but it is my plan to convert it to a cross-platform app once the initial development phase is complete. Data is stored locally in JSON files and the whole app runs on the local machine - no risk of things falling apart mid-concert because of a dodgy internet connection
 
 Please note that it was developed for personal use based on my requirements, so will probably not have functionality that others need or expect. Also I run it locally in a dev environment, so you will need to know how to set this up to be able to use it.
@@ -33,13 +36,21 @@ Navigation options are shown on the screen. In my setup I have a footswitch cont
 
 ## Data storage
 
-Data is stored in JSON files in the `data` folder. There is one file for gigs, and another for songs. See the types.ts file for schema details. The gigs JSON is of type `TGig[]`, songs is of type `TSong[]`.
+Data should be stored in a JSON file called `db.json` in the `~/data` folder (please add this locally). The  structure of the JSON file is
+```
+{
+  "config": TConfig[];
+  "gigs": TGig[];
+  "songs": TSong[]
+}
+```
+See [type definitions]('https://github.com/mjkeeble/BluesPrompter/blob/main/src/types.ts'). The data is accessed using the JSON-server package
 
 ## Roadmap
 
-The following future improvements are envisaged:
+The following possible improvements are envisaged:
 
-1. Add JSON-server as backend emulator (in progress)
+1. Port to Electron so the app can run natively
 2. Add tests
 1. Add chord diagram display option
 1. Add theatre mode for text only
@@ -47,8 +58,7 @@ The following future improvements are envisaged:
 1. Creation of a auth-protected supporting back-end service to store gig and song information with an appropriate front-end interface to manage records
 1. Add setlist creator to backend service
 1. Add band-member configuration for multiple displays.
-1. Network displays for coordination (maybe?)
-1. Create a cross-platform app version alongside the web app to allow it to run on a tablet or smartphone (consider Electron or React Native)
+1. Network multiple displays
 1. Add an opening splash page when initially loading, include key contributors
 1. Upload and display user's logo
 1. Add pdf display option?
