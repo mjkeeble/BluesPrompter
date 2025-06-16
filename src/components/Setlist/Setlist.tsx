@@ -6,6 +6,7 @@ import { BREAK, footswitch } from 'src/const';
 import { TBreak } from 'src/types';
 import { displayDate } from 'src/utils';
 import { fetchSongs } from './utils';
+import {goFullScreen} from '@components/utils';
 
 export type TSongData = {
   id: string;
@@ -23,6 +24,7 @@ const Setlist = () => {
   const [songs, setSongs] = useState<TSongData[]>([]);
 
   useEffect(() => {
+    goFullScreen();
     const focusFirstButton = () => {
       if (buttonsRef.current[0]) {
         buttonsRef.current[0].focus();

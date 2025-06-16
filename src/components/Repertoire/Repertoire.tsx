@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TGig, TSong } from 'src/types';
 import { fetchSongs, handleKeyDown } from './utils';
+import {goFullScreen} from '@components/utils';
 
 const repertoireGig: TGig = {
   id: 'repertoire',
@@ -35,6 +36,7 @@ const Repertoire = () => {
   }, [setGig]);
 
   useEffect(() => {
+    goFullScreen();
     const focusFirstButton = () => {
       if (buttonsRef.current && buttonsRef.current[0]) {
         buttonsRef.current[0].focus();

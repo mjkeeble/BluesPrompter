@@ -1,4 +1,5 @@
 import { NavIndicator } from '@components/index';
+import {goFullScreen} from '@components/utils';
 import { useEffect, useState } from 'react';
 
 type TProps = {
@@ -22,6 +23,11 @@ const Screensaver: React.FC<TProps> = ({ isStart, isLastSong }) => {
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    goFullScreen();
+  }, [])
+  
 
   useEffect(() => {
     const intervalId = setInterval(() => {

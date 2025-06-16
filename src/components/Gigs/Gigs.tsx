@@ -7,6 +7,7 @@ import { footswitch } from 'src/const';
 import { TGig } from 'src/types';
 import { displayDate } from 'src/utils';
 import { fetchGigs, getDateBasedStyling } from './utils';
+import {goFullScreen} from '@components/utils';
 
 const Gigs = () => {
   const Navigate = useNavigate();
@@ -56,10 +57,8 @@ const Gigs = () => {
 
     switch (event.key) {
       case footswitch.CENTRE_SHORT: {
-        const element = document.documentElement;
-        if (element.requestFullscreen) {
-          element.requestFullscreen();
-        }
+        
+        goFullScreen
         buttonsRef.current[currentIndex].click();
         break;
       }

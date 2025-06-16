@@ -8,6 +8,7 @@ import LyricPage from './LyricPage.tsx';
 import TitlePage from './TitlePage.tsx';
 import { ManageInteraction } from './interaction';
 import { fetchSong } from './utils.ts';
+import {goFullScreen} from '@components/utils.ts';
 
 const Song = () => {
   const Navigate = useNavigate();
@@ -25,7 +26,8 @@ const Song = () => {
   }, [id]);
 
   useEffect(() => {
-    // Reset currentPage to 0 when id changes
+    // Reassert fullscreen and reset currentPage to 0 when id changes
+    goFullScreen()
     setCurrentPage(0);
   }, [id]);
 
