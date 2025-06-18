@@ -40,7 +40,14 @@ export const validateDuration = (minutes: number, seconds: number): boolean => {
  **/
 
 export const flattenSetlist = (setlist: string[][]): TSetlist => {
-  setlist = setlist.filter((subArray) => subArray.length > 0);
+  console.log("🚀 -----------------------------------------🚀");
+  console.log("🚀 => flattenSetlist => setlist:", setlist);
+  console.log("🚀 -----------------------------------------🚀");
+  
+  setlist = setlist.filter((subArray) => {
+    console.log("🚀 => flattenSetlist => subArray:", subArray);
+    return subArray.length > 0;
+  });
   if (setlist.length === 0) return [BREAK as TBreak];
   if (setlist.length === 1 && setlist[0].length === 1) return [setlist[0][0]];
 

@@ -43,25 +43,32 @@ const Lyrics: React.FC<TProps> = ({ lyrics }) => {
   }, [fontSize, containerReady, isResizingText, lyrics, lyricMinFontSize, lyricMaxFontSize]); // Re-run effect when fontSize or containerReady changes
 
   // Regular expression pattern to match "[" at the beginning and "]" at the end of the string
-  const regexToIdentifyComment = /^\[.*\]$/;
+  const regexToIdentifyColor1 = /^\[.*\]$/;
+  const regexToIdentifyColor2 = /^#.*#$/;
 
-  const isComment = (str: string): boolean => {
-    return regexToIdentifyComment.test(str);
+  const getTextColor = (str: string): string => {
+    if (regexToIdentifyColor1.test(str)) return 'text-amber-500';
+    if (regexToIdentifyColor2.test(str)) return 'text-red-500';
+    return 'text-inherent';
   };
+
   if (!lyrics.length) return <NoLyricsMessage />;
 
   return (
     <div ref={containerRef} className="max-h-full overflow-y-hidden">
       {' '}
-      {lyrics.map((line, index) => (
-        <p
-          key={index}
-          className={`${isResizingText ? 'text-transparent' : isComment(line) ? 'text-amber-500' : 'text-inherit'} min-h-8 pl-12 text-left -indent-12 font-semibold leading-tight`}
-          style={{ fontSize }}
-        >
-          {isComment(line) ? line.substring(1, line.length - 1) : line}
-        </p>
-      ))}
+      {lyrics.map((line, index) => {
+        const textColor = getTextColor(line);
+        return (
+          <p
+            key={index}
+            className={`${textColor} min-h-8 pl-12 ${textColor === 'text-red-500' ? 'text-right' : 'text-left'} -indent-12 font-semibold leading-tight`}
+            style={{ fontSize }}
+          >
+            {textColor !== 'text-inherent' ? line.substring(1, line.length - 1) : line}
+          </p>
+        );
+      })}
     </div>
   );
 };
