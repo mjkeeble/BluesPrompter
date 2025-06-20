@@ -46,10 +46,10 @@ const Lyrics: React.FC<TProps> = ({ lyrics }) => {
   const regexToIdentifyColor1 = /^\[.*\]$/;
   const regexToIdentifyColor2 = /^#.*#$/;
 
-  const getTextColor = (str: string): string => {
-    if (regexToIdentifyColor1.test(str)) return 'text-amber-500';
-    if (regexToIdentifyColor2.test(str)) return 'text-red-500';
-    return 'text-inherent';
+  const getLineFormatting = (str: string): string => {
+    if (regexToIdentifyColor1.test(str)) return 'text-amber-500 text-left';
+    if (regexToIdentifyColor2.test(str)) return 'text-red-400 text-right';
+    return 'text-inherent text-left';
   };
 
   if (!lyrics.length) return <NoLyricsMessage />;
@@ -58,14 +58,14 @@ const Lyrics: React.FC<TProps> = ({ lyrics }) => {
     <div ref={containerRef} className="max-h-full overflow-y-hidden">
       {' '}
       {lyrics.map((line, index) => {
-        const textColor = getTextColor(line);
+        const variableFormatting = getLineFormatting(line);
         return (
           <p
             key={index}
-            className={`${textColor} min-h-8 pl-12 ${textColor === 'text-red-500' ? 'text-right' : 'text-left'} -indent-12 font-semibold leading-tight`}
+            className={`${variableFormatting} min-h-8 pl-12 -indent-12 font-semibold leading-tight`}
             style={{ fontSize }}
           >
-            {textColor !== 'text-inherent' ? line.substring(1, line.length - 1) : line}
+            {variableFormatting !== 'text-inherent text-left' ? line.substring(1, line.length - 1) : line}
           </p>
         );
       })}
