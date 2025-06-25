@@ -2,11 +2,11 @@
 alt='BluesPropmpter logo'
 style='width: 30%; margin-bottom: 4rem;' />
 
-#Welcome to BluesPrompter#
+# Welcome to BluesPrompter
 
 **BluesPrompter** is a stage teleprompter app specifically for gigging musicians. No need to worry about forgetting chords or lyrics, no messing around with music stands, sheaves of paper or tablet mounts - it's all there on the screen in front of you.
 
-##A new version of BluesPrompter is currently under development as an Electron app.## 
+## A new version of BluesPrompter is currently under development as an Electron app. 
 Currently the app is written to run as a local web app, but it is my plan to convert it to a cross-platform app once the initial development phase is complete. Data is stored locally in JSON files and the whole app runs on the local machine - no risk of things falling apart mid-concert because of a dodgy internet connection
 
 Please note that it was developed for personal use based on my requirements, so will probably not have functionality that others need or expect. Also I run it locally in a dev environment, so you will need to know how to set this up to be able to use it.
