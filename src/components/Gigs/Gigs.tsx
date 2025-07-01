@@ -130,11 +130,11 @@ const GigButton = forwardRef<HTMLButtonElement, TProps>(({ classes, date, locati
   return (
     <button
       ref={ref}
-      className={`border-5 my-2 flex w-full flex-row rounded-full border-bj-white p-2 px-6 text-5xl transition-colors duration-300 ease-in-out focus:bg-bj-green-mid focus:text-bj-white focus:outline-none focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2  ${classes}`}
+      className={`border-5 my-2 flex w-full flex-row rounded-full border-bj-white p-2 px-6 text-5xl transition-colors duration-300 ease-in-out focus:bg-bj-green-mid focus:text-bj-white focus:outline-hidden focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2  ${classes}`}
       onClick={onclick}
     >
       <div className="text-left">{date}</div>
-      <div className="flex-grow text-center">{location === 'Repertoire' ? location : ''}</div>
+      <div className="grow text-center">{location === 'Repertoire' ? location : ''}</div>
       <div className="text-right">{location !== 'Repertoire' ? location : ''}</div>
     </button>
   );

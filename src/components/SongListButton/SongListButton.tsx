@@ -11,7 +11,7 @@ const SongListButton = forwardRef<HTMLButtonElement, TProps>(({ classes, title, 
   return (
     <button
       ref={ref}
-      className={`my-2 w-2/3 rounded-full border-none p-2 text-center  transition-colors duration-300 ease-in-out text-5xl focus:text-6xl focus:font-semibold focus:outline-none focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2 ${classes}`}
+      className={`my-2 w-2/3 rounded-full border-none p-2 text-center  transition-colors duration-300 ease-in-out text-5xl focus:text-6xl focus:font-semibold focus:outline-hidden focus:ring-2 focus:ring-bj-green-dark focus:ring-offset-2 ${classes}`}
       onClick={onclick}
     >
       {title}

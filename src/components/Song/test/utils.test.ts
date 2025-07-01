@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fetchScreenSplit, fetchSong } from '../utils';
 
 const mockSong: Song = {
-  id: 1,
+  id: '1',
   act_id: 'Test Act',
   title: 'Test Song',
   writtenBy: ['Test Writer'],
@@ -30,7 +30,7 @@ describe('fetchSong', () => {
       json: vi.fn().mockResolvedValue(mockSong),
     });
 
-    const response = await fetchSong(1);
+    const response = await fetchSong('1');
     expect(response).toEqual(mockSong);
     expect(global.fetch).toHaveBeenCalledWith('http://localhost:3000/songs/1');
   });
@@ -40,7 +40,7 @@ describe('fetchSong', () => {
 
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    const result = await fetchSong(1);
+    const result = await fetchSong('1');
     expect(result).toBeNull();
     expect(consoleSpy).toHaveBeenCalledWith('Error fetching song', expect.any(Error));
   });
