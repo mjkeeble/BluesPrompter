@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
 import { ConfigContext } from '@context/configContextDefinition';
-import {TEXT_XL} from 'src/const';
-import {TTextSizes} from 'src/types';
+import React, { useContext } from 'react';
+import { TEXT_XL } from 'src/const';
+import { TextSizes } from 'src/types';
 
 type TProps = {
   chords: string[][];
@@ -16,11 +16,10 @@ const flattenChords = (chords: string[][], barsPerLine: number): string[] => {
     .flat();
 };
 
-const Chords: React.FC<TProps> = ({chords}) => {
+const Chords: React.FC<TProps> = ({ chords }) => {
   const config = useContext(ConfigContext);
-  const chordFontSize: TTextSizes = config?.chordFontSize ?? TEXT_XL;
-  
-  
+  const chordFontSize: TextSizes = config?.chordFontSize ?? TEXT_XL;
+
   const barsPerLine = Math.round(Math.max(...chords.map((subArray) => subArray.length)));
   const flattenedChords = flattenChords(chords, barsPerLine);
 
@@ -35,8 +34,6 @@ const Chords: React.FC<TProps> = ({chords}) => {
           ))}
         </div>
       ) : null}
-
-      
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Demo, Gigs, Repertoire, Setlist, Song } from '@components/index';
+import { Demo, Gigs, Repertoire, Setlist, SongComponent } from '@components/index';
 import { ConfigContextProvider } from '@context/configContext';
 import { GigContextProvider } from '@context/gigContext';
 import { Route, Routes } from 'react-router-dom';
@@ -12,7 +12,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Gigs />} />
             <Route path="demo/" element={<Demo />} />
-            <Route path="song/:id" element={<Song />} />
+            <Route path="song/:id" element={<SongComponent />} />
             <Route path="setlist/" element={<Setlist />} />
             {/* <Route path="setlist/:id" element={<Setlist />} /> */}
             <Route path="repertoire/" element={<Repertoire />} />

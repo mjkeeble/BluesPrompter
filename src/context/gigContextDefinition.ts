@@ -1,10 +1,10 @@
 import { createContext } from 'react';
-import { TGig, TSetlist } from 'src/types';
+import { Gig, Setlist } from 'src/types';
 
 interface GigContextType {
-  gig: TGig | undefined;
-  setGig: (gig: TGig) => void;
-  setlist: TSetlist;
+  gig: Gig | undefined;
+  setGig: (gig: Gig) => void;
+  setlist: Setlist;
 }
 
 export const GigContext = createContext<GigContextType | undefined>(undefined);

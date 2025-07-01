@@ -1,5 +1,5 @@
 import { BREAK } from 'src/const';
-import { TBreak } from 'src/types';
+import { Break } from 'src/types';
 import { describe, expect, it } from 'vitest';
 import { displayDate, flattenSetlist, hasMatchingBrackets, validateDuration, validateGemaWerknummer } from '../utils';
 
@@ -68,54 +68,54 @@ describe('validateDuration', () => {
 
 describe('flattenSetlist', () => {
   it('should flatten the setlist and add BREAK elements', () => {
-    const setlist = [[1, 2, 3], [4, 5], [6]];
+    const setlist = [['1', '2', '3'], ['4', '5'], ['6']];
 
-    const expectedOutput = [BREAK as TBreak, 1, 2, 3, BREAK as TBreak, 4, 5, BREAK as TBreak, 6, BREAK as TBreak];
+    const expectedOutput = [BREAK as Break, '1', '2', '3', BREAK as Break, '4', '5', BREAK as Break, '6', BREAK as Break];
 
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);
   });
 
   it('should handle an empty setlist', () => {
-    const setlist: number[][] = [];
+    const setlist: string[][] = [];
 
-    const expectedOutput = [BREAK as TBreak];
+    const expectedOutput = [BREAK as Break];
 
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);
   });
 
   it('should handle a setlist with empty subarrays', () => {
-    const setlist = [[], [1, 2], []];
+    const setlist = [[], ['1', '2'], []];
 
-    const expectedOutput = [BREAK as TBreak, 1, 2, BREAK as TBreak];
+    const expectedOutput = [BREAK as Break, '1', '2', BREAK as Break];
 
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);
   });
 
   it('should handle a setlist with a single element', () => {
-    const setlist = [[1]];
+    const setlist = [['1']];
 
-    const expectedOutput = [1];
+    const expectedOutput = ['1'];
 
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);
   });
 
   it('should handle a setlist with multiple single-element subarrays', () => {
-    const setlist = [[1], [2], [3]];
+    const setlist = [['1'], ['2'], ['3']];
 
-    const expectedOutput = [BREAK as TBreak, 1, BREAK as TBreak, 2, BREAK as TBreak, 3, BREAK as TBreak];
+    const expectedOutput = [BREAK as Break, 1, BREAK as Break, 2, BREAK as Break, 3, BREAK as Break];
 
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);
   });
 
   it('should handle a setlist with mixed empty and non-empty subarrays', () => {
-    const setlist = [[], [1], [], [2, 3], [], [4], []];
+    const setlist = [[], ['1'], [], ['2', '3'], [], ['4'], []];
 
-    const expectedOutput = [BREAK as TBreak, 1, BREAK as TBreak, 2, 3, BREAK as TBreak, 4, BREAK as TBreak];
+    const expectedOutput = [BREAK as Break, '1', BREAK as Break, '2', '3', BREAK as Break, '4', BREAK as Break];
 
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);
@@ -124,7 +124,7 @@ describe('flattenSetlist', () => {
   it('should handle a setlist with all empty subarrays', () => {
     const setlist = [[], [], []];
 
-    const expectedOutput = [BREAK as TBreak];
+    const expectedOutput = [BREAK as Break];
 
     const result = flattenSetlist(setlist);
     expect(result).toEqual(expectedOutput);

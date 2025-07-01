@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ACTIVEKEYS, footswitch } from 'src/const';
-import { TInput } from 'src/types';
+import { Input } from 'src/types';
 import { goto } from './utils';
 
 type TProps = {
-  footswitchInput: TInput;
+  footswitchInput: Input;
   currentSong: number;
   totalSongs: number;
   currentPage: number;

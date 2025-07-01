@@ -1,12 +1,12 @@
 import { NavIndicator, SongListButton } from '@components/index';
+import { goFullScreen } from '@components/utils';
 import { GigContext } from '@context/gigContextDefinition';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BREAK, footswitch } from 'src/const';
-import { TBreak } from 'src/types';
+import { Break } from 'src/types';
 import { displayDate } from 'src/utils';
 import { fetchSongs } from './utils';
-import {goFullScreen} from '@components/utils';
 
 export type TSongData = {
   id: string;
@@ -40,12 +40,12 @@ const Setlist = () => {
 
   useEffect(() => {
     const getAndStoreSongs = async () => {
-      const songIds = setlist.filter((songId: string | TBreak) => songId !== BREAK);
+      const songIds = setlist.filter((songId: string | Break) => songId !== BREAK);
 
       const getSongs = await fetchSongs(songIds);
       const extractedSongs = getSongs.map((song) => {
         if (song === 'Song not found') {
-          return { id: "Error", title: 'Song not found' };
+          return { id: 'Error', title: 'Song not found' };
         } else {
           return {
             id: song.id,
@@ -107,7 +107,7 @@ const Setlist = () => {
         ) : null}
 
         <ul className="mb-20 mt-8">
-          {setlist.map((songId: string | TBreak, index: number) => {
+          {setlist.map((songId: string | Break, index: number) => {
             if (songId === BREAK)
               return (
                 <li key={index}>

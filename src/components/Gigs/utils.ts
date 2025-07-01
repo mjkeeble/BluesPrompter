@@ -1,4 +1,4 @@
-import { TGig } from 'src/types';
+import { Gig } from 'src/types';
 
 export const getDateBasedStyling = (date: string): string => {
   const gigDate = new Date(date).setHours(0, 0, 0, 0);
@@ -8,9 +8,9 @@ export const getDateBasedStyling = (date: string): string => {
   return 'bg-bj-blue-light text-bj-blue-mid font-bold';
 };
 
-export const fetchGigs = async (): Promise<TGig[] | null> => {
+export const fetchGigs = async (): Promise<Gig[] | null> => {
   try {
-    const response: TGig[] = await (await fetch('http://localhost:3000/gigs')).json();
+    const response: Gig[] = await (await fetch('http://localhost:3000/gigs')).json();
     return response;
   } catch (error) {
     console.error('Error fetching gigs', error);

@@ -1,21 +1,21 @@
 import { Screensaver } from '@components/index.ts';
+import { goFullScreen } from '@components/utils.ts';
 import { GigContext } from '@context/gigContextDefinition';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ACTIVEKEYS, BREAK } from 'src/const.ts';
-import { TSong } from 'src/types';
+import { Song } from 'src/types';
 import LyricPage from './LyricPage.tsx';
 import TitlePage from './TitlePage.tsx';
 import { ManageInteraction } from './interaction';
 import { fetchSong } from './utils.ts';
-import {goFullScreen} from '@components/utils.ts';
 
-const Song = () => {
+const SongComponent = () => {
   const Navigate = useNavigate();
   const { setlist } = useContext(GigContext) ?? { setlist: [] };
   const { id } = useParams();
   const [setlistIndex, setSetlistIndex] = useState<number>(parseInt(id!));
-  const [song, setSong] = useState<TSong>();
+  const [song, setSong] = useState<Song>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [timerIsHalted, setTimerIsHalted] = useState<boolean>(false);
   const duration = song?.pages[currentPage - 1]?.duration || 0;
@@ -27,7 +27,7 @@ const Song = () => {
 
   useEffect(() => {
     // Reassert fullscreen and reset currentPage to 0 when id changes
-    goFullScreen()
+    goFullScreen();
     setCurrentPage(0);
   }, [id]);
 
@@ -106,4 +106,4 @@ const Song = () => {
   );
 };
 
-export default Song;
+export default SongComponent;

@@ -1,12 +1,12 @@
 import { NavIndicator, SongListButton } from '@components/index';
+import { goFullScreen } from '@components/utils';
 import { GigContext } from '@context/gigContextDefinition';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TGig, TSong } from 'src/types';
+import { Gig, Song } from 'src/types';
 import { fetchSongs, handleKeyDown } from './utils';
-import {goFullScreen} from '@components/utils';
 
-const repertoireGig: TGig = {
+const repertoireGig: Gig = {
   id: 'repertoire',
   venue: '',
   town: '',
@@ -21,7 +21,7 @@ const Repertoire = () => {
   const setGig = gigContext?.setGig;
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [repertoireList, setRepertoireList] = useState<TSong[]>([]);
+  const [repertoireList, setRepertoireList] = useState<Song[]>([]);
 
   useEffect(() => {
     setGig && setGig(repertoireGig);
@@ -63,12 +63,11 @@ const Repertoire = () => {
   const endOfListRef = useRef<HTMLDivElement | null>(null);
 
   const handleSelectSong = (id: string) => {
-
     if (setGig) {
       setGig({ ...repertoireGig, setlist: [[id]] });
     }
 
-      Navigate(`/song/0`);
+    Navigate(`/song/0`);
   };
 
   return (
@@ -83,7 +82,7 @@ const Repertoire = () => {
       >
         <h1 className="my-5 font-fredericka text-7xl text-bj-white">Repertoire</h1>
         <ul className="mb-20 mt-8">
-          {repertoireList.map((song: TSong, index) => {
+          {repertoireList.map((song: Song, index) => {
             return (
               <li key={index}>
                 <SongListButton

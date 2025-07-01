@@ -1,15 +1,15 @@
+import { NavIndicator } from '@components/NavIndicator';
 import { ConfigContext } from '@context/configContextDefinition';
 import { useContext } from 'react';
-import { TSong } from 'src/types';
+import { Song } from 'src/types';
 import Chords from './Chords';
 import Lyrics from './Lyrics';
 import ProgressBar from './ProgressBar';
 import PageTitle from './SectionTitle';
 import { fetchScreenSplit } from './utils';
-import {NavIndicator} from '@components/NavIndicator';
 
 type TProps = {
-  song: TSong;
+  song: Song;
   currentPage: number;
   setCurrentPage: (page: number) => void;
   timerHalted: boolean;

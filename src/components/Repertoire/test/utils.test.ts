@@ -1,16 +1,18 @@
-import { TSong } from 'src/types';
-import { fetchSongs } from '../utils';
+import { Song } from 'src/types';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { fetchSongs } from '../utils';
 
-const mockSongs: TSong[] = [
+const mockSongs: Song[] = [
   {
-    id: 1,
+    id: '1',
+    act_id: 'Test Act',
     title: 'Test Song',
     writtenBy: ['Test Writer'],
     pages: [],
   },
   {
-    id: 2,
+    id: '2',
+    act_id: 'Test Act',
     title: 'Test Song 2',
     writtenBy: ['Test Writer 2'],
     pages: [],

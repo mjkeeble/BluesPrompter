@@ -1,13 +1,13 @@
 // import { storeSetlist } from '@context/index';
 import { NavIndicator } from '@components/index';
+import { goFullScreen } from '@components/utils';
 import { GigContext } from '@context/gigContextDefinition';
 import { forwardRef, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { footswitch } from 'src/const';
-import { TGig } from 'src/types';
+import { Gig } from 'src/types';
 import { displayDate } from 'src/utils';
 import { fetchGigs, getDateBasedStyling } from './utils';
-import {goFullScreen} from '@components/utils';
 
 const Gigs = () => {
   const Navigate = useNavigate();
@@ -15,7 +15,7 @@ const Gigs = () => {
   const setGig = gigContext?.setGig;
 
   const buttonsRef = useRef<HTMLButtonElement[]>([]);
-  const [gigs, setGigs] = useState<TGig[]>([]);
+  const [gigs, setGigs] = useState<Gig[]>([]);
 
   useEffect(() => {
     const getAndSetGigs = async () => {
@@ -57,8 +57,7 @@ const Gigs = () => {
 
     switch (event.key) {
       case footswitch.CENTRE_SHORT: {
-        
-        goFullScreen
+        goFullScreen;
         buttonsRef.current[currentIndex].click();
         break;
       }
@@ -83,7 +82,7 @@ const Gigs = () => {
     }
   };
 
-  const handleSelectGig = (gig: TGig): void => {
+  const handleSelectGig = (gig: Gig): void => {
     if (setGig) {
       setGig(gig);
     }
@@ -96,7 +95,7 @@ const Gigs = () => {
         <div className="w-3/4" onKeyDown={handleKeyDown} tabIndex={0}>
           <h1 className="my-5 font-fredericka text-7xl text-bj-white">Gigs</h1>
           <ul className="mb-20 mt-8">
-            {gigs.map((gigFromList: TGig, index) => (
+            {gigs.map((gigFromList: Gig, index) => (
               <li key={gigFromList.id}>
                 <GigButton
                   ref={(el: HTMLButtonElement) => (buttonsRef.current[index] = el)}

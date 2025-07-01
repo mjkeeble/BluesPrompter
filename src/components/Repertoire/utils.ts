@@ -1,9 +1,9 @@
 import { footswitch } from 'src/const';
-import { TGig, TSong } from 'src/types';
+import { Gig, Song } from 'src/types';
 
-export const fetchSongs = async (): Promise<TSong[] | null> => {
+export const fetchSongs = async (): Promise<Song[] | null> => {
   try {
-    const response: TSong[] = await (await fetch(`http://localhost:3000/songs`)).json();
+    const response: Song[] = await (await fetch(`http://localhost:3000/songs`)).json();
     return response.sort((a, b) => {
       const titleComparison = a.title.localeCompare(b.title);
       if (titleComparison !== 0) {
@@ -20,9 +20,9 @@ export const fetchSongs = async (): Promise<TSong[] | null> => {
 export const handleKeyDown = (
   event: { key: string },
   buttonsRef: React.RefObject<HTMLButtonElement[]>,
-  repertoireList: TSong[],
+  repertoireList: Song[],
   endOfListRef: React.RefObject<HTMLDivElement | null>,
-  gig: TGig | undefined,
+  gig: Gig | undefined,
   Navigate: (path: string) => void,
 ) => {
   if (buttonsRef.current) {

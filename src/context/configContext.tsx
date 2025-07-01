@@ -1,13 +1,13 @@
 // ConfigContext.tsx
 import React, { ReactNode, useEffect, useState } from 'react';
-import { TConfig } from 'src/types';
+import { Config } from 'src/types';
 import { ConfigContext } from './configContextDefinition';
 
 interface ConfigProviderProps {
   children: ReactNode;
 }
 
-const fetchConfig = async (): Promise<TConfig[] | null> => {
+const fetchConfig = async (): Promise<Config[] | null> => {
   try {
     const response = await fetch('http://localhost:3000/config');
     return await response.json();
@@ -18,7 +18,7 @@ const fetchConfig = async (): Promise<TConfig[] | null> => {
 };
 
 export const ConfigContextProvider: React.FC<ConfigProviderProps> = ({ children }) => {
-  const [config, setConfig] = useState<TConfig | null>(null);
+  const [config, setConfig] = useState<Config | null>(null);
 
   useEffect(() => {
     const getConfig = async () => {

@@ -17,7 +17,7 @@ const TitlePage: React.FC<TProps> = ({ title, version, scale, setup, tempo, note
 
   return (
     <div className="flex h-screen w-full flex-col overflow-hidden px-8 py-8">
-      <header className=" m-2 flex items-start justify-between text-3xl ">
+      <header className=" m-2 flex items-start justify-between text-3xl">
         <h1 className="mr-2 text-left">{title}</h1>
         <h2>{currentTime}</h2>
       </header>

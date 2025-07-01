@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react';
-import { TGig } from 'src/types';
+import { Gig } from 'src/types';
 import { flattenSetlist } from 'src/utils';
 import { GigContext } from './gigContextDefinition';
 
@@ -8,17 +8,17 @@ interface ConfigProviderProps {
 }
 
 export const GigContextProvider: React.FC<ConfigProviderProps> = ({ children }) => {
-  const [gig, setGigState] = useState<TGig | undefined>(() => {
+  const [gig, setGigState] = useState<Gig | undefined>(() => {
     const storedGig = localStorage.getItem('gig');
     return storedGig ? JSON.parse(storedGig) : undefined;
   });
 
-  const setGig = useCallback((newGig: TGig) => {
+  const setGig = useCallback((newGig: Gig) => {
     console.info('Setting gig:', newGig);
     setGigState(newGig);
     localStorage.setItem('gig', JSON.stringify(newGig));
     console.info('Gig saved to localStorage:', localStorage.getItem('gig'));
-  },[]);
+  }, []);
 
   useEffect(() => {
     const storedGig = localStorage.getItem('gig');

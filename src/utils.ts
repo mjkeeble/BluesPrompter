@@ -1,5 +1,5 @@
 import { BREAK } from './const';
-import { TBreak, TSetlist } from './types';
+import { Break, Setlist } from './types';
 
 // validate form of GEMA-Werknummer
 const gemaRegex = '^\\d{1,8}-\\d{3}$';
@@ -39,17 +39,17 @@ export const validateDuration = (minutes: number, seconds: number): boolean => {
  * Each sub-array is prefixed with a BREAK element and the final array is also suffixed with a BREAK element.
  **/
 
-export const flattenSetlist = (setlist: string[][]): TSetlist => {
-  console.log("🚀 -----------------------------------------🚀");
-  console.log("🚀 => flattenSetlist => setlist:", setlist);
-  console.log("🚀 -----------------------------------------🚀");
-  
+export const flattenSetlist = (setlist: string[][]): Setlist => {
+  console.log('🚀 -----------------------------------------🚀');
+  console.log('🚀 => flattenSetlist => setlist:', setlist);
+  console.log('🚀 -----------------------------------------🚀');
+
   setlist = setlist.filter((subArray) => {
-    console.log("🚀 => flattenSetlist => subArray:", subArray);
+    console.log('🚀 => flattenSetlist => subArray:', subArray);
     return subArray.length > 0;
   });
-  if (setlist.length === 0) return [BREAK as TBreak];
+  if (setlist.length === 0) return [BREAK as Break];
   if (setlist.length === 1 && setlist[0].length === 1) return [setlist[0][0]];
 
-  return setlist.flatMap((subArray) => [BREAK as TBreak, ...subArray.map(String)]).concat([BREAK as TBreak]);
+  return setlist.flatMap((subArray) => [BREAK as Break, ...subArray.map(String)]).concat([BREAK as Break]);
 };

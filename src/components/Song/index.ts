@@ -1,1 +1,1 @@
-export { default as Song } from './Song';
+export { default as SongComponent } from './Song';

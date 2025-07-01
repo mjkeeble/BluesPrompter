@@ -1,10 +1,11 @@
-import {describe, expect, it, vi} from 'vitest';
-import { getDateBasedStyling, fetchGigs } from '..//utils';
-import {TGig} from 'src/types';
+import { Gig } from 'src/types';
+import { describe, expect, it, vi } from 'vitest';
+import { fetchGigs, getDateBasedStyling } from '..//utils';
 
-const mockGigs:TGig[] = [
+const mockGigs: Gig[] = [
   {
     id: '1',
+    act_id: 'Test Act',
     venue: 'Test Venue',
     town: 'Test Town',
     dateTime: new Date().toISOString(),
@@ -12,6 +13,7 @@ const mockGigs:TGig[] = [
   },
   {
     id: '2',
+    act_id: 'Test Act',
     venue: 'Test Venue 2',
     town: 'Test Town 2',
     dateTime: new Date().toISOString(),

@@ -1,9 +1,10 @@
-import { TSong } from 'src/types';
+import { Song } from 'src/types';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fetchScreenSplit, fetchSong } from '../utils';
 
-const mockSong: TSong = {
+const mockSong: Song = {
   id: 1,
+  act_id: 'Test Act',
   title: 'Test Song',
   writtenBy: ['Test Writer'],
   pages: [],

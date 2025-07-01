@@ -1,5 +1,5 @@
 import { NavigateFunction } from 'react-router-dom';
-import { TSong } from 'src/types';
+import { Song } from 'src/types';
 
 export const fetchScreenSplit = (screenSplit: number | undefined, pageHasChords: boolean): number => {
   return !pageHasChords ? 0 : Number(screenSplit || 6);
@@ -8,7 +8,7 @@ export const fetchScreenSplit = (screenSplit: number | undefined, pageHasChords:
 export const fetchSong = async (id: string) => {
   try {
     const response = await fetch(`http://localhost:3000/songs/${id}`);
-    const data: TSong = await response.json();
+    const data: Song = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching song', error);

@@ -1,4 +1,4 @@
 import { createContext } from 'react';
-import { TConfig } from 'src/types';
+import { Config } from 'src/types';
 
-export const ConfigContext = createContext<TConfig | null>(null);
+export const ConfigContext = createContext<Config | null>(null);
