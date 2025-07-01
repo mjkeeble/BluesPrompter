@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 
-import { ConfigContext } from '@context/configContextDefinition';
-import { DEFAULT_MAX_FONT_SIZE, DEFAULT_MIN_FONT_SIZE, MAX_LYRIC_FONT_SIZE } from 'src/const';
-import { FontSizeKey } from 'src/types';
+import {ConfigContext} from '@context/configContextDefinition';
+import {DEFAULT_MAX_FONT_SIZE, DEFAULT_MIN_FONT_SIZE, MAX_LYRIC_FONT_SIZE} from 'src/const';
+import {FontSizeKey} from 'src/types';
 
 type TProps = {
   lyrics: string[];
@@ -55,14 +55,15 @@ const Lyrics: React.FC<TProps> = ({ lyrics }) => {
   if (!lyrics.length) return <NoLyricsMessage />;
 
   return (
-    <div ref={containerRef} className="max-h-full overflow-y-hidden">
+    <div ref={containerRef} className="max-h-full overflow-y-hidden pl-15">
       {' '}
       {lyrics.map((line, index) => {
         const variableFormatting = getLineFormatting(line);
         return (
           <p
             key={index}
-            className={`${variableFormatting} min-h-8 pl-12 -indent-12 font-semibold leading-tight`}
+            className={`${variableFormatting} min-h-8 font-semibold
+           -indent-12 leading-tight`}
             style={{ fontSize }}
           >
             {variableFormatting !== 'text-inherent text-left' ? line.substring(1, line.length - 1) : line}

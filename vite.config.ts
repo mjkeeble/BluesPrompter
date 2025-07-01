@@ -1,11 +1,12 @@
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import eslint from 'vite-plugin-eslint2';
-import { defineConfig } from 'vitest/config';
+import {defineConfig} from 'vitest/config';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), eslint()],
+  plugins: [react(), eslint(), tailwindcss()],
   resolve: {
     alias: {
       '@components': '/src/components',

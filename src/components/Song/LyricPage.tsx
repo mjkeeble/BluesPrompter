@@ -1,12 +1,12 @@
-import { NavIndicator } from '@components/NavIndicator';
-import { ConfigContext } from '@context/configContextDefinition';
-import { useContext } from 'react';
-import { Song } from 'src/types';
+import {NavIndicator} from '@components/NavIndicator';
+import {ConfigContext} from '@context/configContextDefinition';
+import {useContext} from 'react';
+import {Song} from 'src/types';
 import Chords from './Chords';
 import Lyrics from './Lyrics';
 import ProgressBar from './ProgressBar';
 import PageTitle from './SectionTitle';
-import { fetchScreenSplit } from './utils';
+import {fetchScreenSplit} from './utils';
 
 type TProps = {
   song: Song;
@@ -33,6 +33,19 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
   const lyricBoxHeight = pageHasProgressBar ? '100vh - 84px' : pageHasChords ? '100vh' : '100vh - 125px';
 
   const screenSplit = fetchScreenSplit(song.configChordPaneSize || config?.chordPaneSize, pageHasChords);
+
+  const lyricColSpan = 10 - screenSplit;
+const colSpanClass =
+  lyricColSpan === 1 ? 'col-span-1' :
+  lyricColSpan === 2 ? 'col-span-2' :
+  lyricColSpan === 3 ? 'col-span-3' :
+  lyricColSpan === 4 ? 'col-span-4' :
+  lyricColSpan === 5 ? 'col-span-5' :
+  lyricColSpan === 6 ? 'col-span-6' :
+  lyricColSpan === 7 ? 'col-span-7' :
+  lyricColSpan === 8 ? 'col-span-8' :
+  lyricColSpan === 9 ? 'col-span-9' :
+  'col-span-10';
 
   const progressIndicatorControlIcon = (): 'pause' | 'play' | undefined => {
     if (isLastPage) return undefined;
@@ -75,7 +88,7 @@ const LyricPage: React.FC<TProps> = ({ song, currentPage, setCurrentPage, timerH
           <Chords chords={currentPageData.chords} />
         </div>
         <div
-          className={`col-span-${10 - screenSplit} overflow-y-clip px-4`}
+          className={`${colSpanClass} overflow-y-clip px-4`}
           style={{ height: `calc(${lyricBoxHeight})` }}
         >
           <Lyrics lyrics={currentPageData.lyrics} />
