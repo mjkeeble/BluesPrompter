@@ -8,6 +8,7 @@ import { fetchSongs, handleKeyDown } from './utils';
 
 const repertoireGig: Gig = {
   id: 'repertoire',
+  act_id:'',
   venue: '',
   town: '',
   dateTime: new Date().toISOString(),

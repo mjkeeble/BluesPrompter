@@ -53,3 +53,13 @@ export const goto = {
     setTimerHalted(!timerHalted);
   },
 };
+
+// Regular expression pattern to match "#" or "##"" at the beginning of the string
+const regexToIdentifyColor1 = /^#.*$/;
+const regexToIdentifyColor2 = /^##.*$/;
+
+export const getFormattedLine = (str: string): { format: string; lyric: string } => {
+  if (regexToIdentifyColor2.test(str)) return { format: 'text-red-400 text-right', lyric: str.substring(2) };
+  if (regexToIdentifyColor1.test(str)) return { format: 'text-amber-500 text-left', lyric: str.substring(1) };
+  return { format: 'text-inherent text-left -indent-12', lyric: str };
+};

@@ -21,7 +21,7 @@ export const hasMatchingBrackets = (str: string): boolean => {
 export const displayDate = (date: string): string => {
   return new Date(date).toLocaleDateString('en-GB', {
     day: 'numeric',
-    month: 'long',
+    month: 'short',
     year: 'numeric',
   });
 };
