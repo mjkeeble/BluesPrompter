@@ -45,6 +45,7 @@ export default {
         fredericka: ['fredericka', 'sans-serif'],
       },
       fontSize: {
+        titlePage: '4.5rem',
         lyric: '2.5rem',
         countin: '8rem',
       },

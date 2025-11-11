@@ -1,5 +1,5 @@
 import { NavIndicator } from '@components/index';
-import CountIn from './CountIn';
+// import CountIn from './CountIn';
 
 type TProps = {
   title: string;
@@ -12,26 +12,27 @@ type TProps = {
   isLastSong: boolean;
 };
 
-const TitlePage: React.FC<TProps> = ({ title, version, scale, setup, tempo, notes, timeSignature, isLastSong }) => {
+// const TitlePage: React.FC<TProps> = ({title, version, scale, setup, tempo, notes, timeSignature, isLastSong}) => {
+const TitlePage: React.FC<TProps> = ({ title, version, scale, setup, notes, isLastSong }) => {
   const currentTime = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 
   return (
     <div className="flex h-screen w-full flex-col overflow-hidden px-8 py-8">
-      <header className=" m-2 flex items-start justify-between text-3xl">
+      <header className="m-2 flex items-start justify-between text-3xl">
         <h1 className="mr-2 text-left">{title}</h1>
         <h2>{currentTime}</h2>
       </header>
       <div className="flex h-full items-center justify-center">
-        <div className="w-full text-center">
-          {scale ? <p className="text-lyric">Key: {scale}</p> : null}
-          {version ? <p className="text-lyric">Version: {version}</p> : null}
+        <div className="text-6xl w-full text-center">
+          {scale ? <p>Key: {scale}</p> : null}
+          {version ? <p>Version: {version}</p> : null}
           {setup ? (
             <div className="flex h-full w-full items-center justify-center">
-              <p className="text-lyric">{setup}</p>
+              <p>{setup}</p>
             </div>
           ) : null}
           {notes ? <RenderSongNotes notes={notes} /> : null}
-          <div>{tempo && timeSignature ? <CountIn tempo={tempo} timeSignature={timeSignature} /> : null}</div>
+          {/* <div>{tempo && timeSignature ? <CountIn tempo={tempo} timeSignature={timeSignature} /> : null}</div> */}
         </div>
       </div>
       <NavIndicator
@@ -47,7 +48,7 @@ const TitlePage: React.FC<TProps> = ({ title, version, scale, setup, tempo, note
 
 const RenderSongNotes: React.FC<{ notes: string }> = ({ notes }) => {
   return (
-    <p className="text-lyric text-bj-green-light">
+    <p className="text-bj-green-light">
       {notes.split('\n').map((line, index) => (
         <span key={index}>
           {line}
