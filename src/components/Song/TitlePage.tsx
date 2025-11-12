@@ -23,7 +23,7 @@ const TitlePage: React.FC<TProps> = ({ title, version, scale, setup, notes, isLa
         <h2>{currentTime}</h2>
       </header>
       <div className="flex h-full items-center justify-center">
-        <div className="text-6xl w-full text-center">
+        <div className="text-7xl font-bold w-full text-center">
           {scale ? <p>Key: {scale}</p> : null}
           {version ? <p>Version: {version}</p> : null}
           {setup ? (
