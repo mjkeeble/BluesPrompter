@@ -1,6 +1,6 @@
 import { NavIndicator } from '@components/index';
-import {goFullScreen} from '@components/utils';
-import { useEffect, useRef, useState } from 'react';
+import { goFullScreen } from '@components/utils';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type TProps = {
   isStart: boolean;
@@ -14,83 +14,138 @@ type TImage = {
 };
 
 const IMAGE_DURATION = 20; // seconds
-const FADE_DURATION = 4000; // ms - adjust to taste
+const FADE_OUT_MS = 800; // ms - old image fade out
+const FADE_IN_MS = 800; // ms - new image fade in
 
-const Screensaver: React.FC<TProps> = ({ isStart, isLastSong }) => {
-  // ...existing code...
-  const images: TImage[] = [
+const Screensaver: React.FC<TProps> = ({isStart, isLastSong}) => {
+  const images: TImage[] = useMemo(() => [
     { src: '/blues_jab_logo.svg', alt: 'Blues Jab - Boy Band of the Blues', text: '' },
     { src: '/bp_icon_with_text_inkscape.svg', alt: 'Blues Prompter. Your songs. Your stage. No worries', text: '' },
-  ];
+  ],[]);
+
 
   const [currentImage, setCurrentImage] = useState(0);
   const [nextImage, setNextImage] = useState<number | null>(null);
-  const [isFading, setIsFading] = useState(false);
+  const [prevImage, setPrevImage] = useState<number | null>(null);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+  const [isFadingIn, setIsFadingIn] = useState(false);
+
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const fadeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rafRef = useRef<number | null>(null); // <-- new ref for requestAnimationFrame
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutRef2 = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     goFullScreen();
   }, []);
 
-useEffect(() => {
-    // start cycle: wait IMAGE_DURATION, then cross-fade to nextImage
+  const preloadImage = (src: string) =>
+    new Promise<void>((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve();
+      img.onerror = () => resolve();
+      img.src = src;
+      if (img.complete && img.naturalWidth) resolve();
+    });
+
+  useEffect(() => {
+    let mounted = true;
+
     intervalRef.current = setInterval(() => {
-      const idx = (currentImage + 1) % images.length;
+      (async () => {
+        const idx = (currentImage + 1) % images.length;
 
-      // mount the next image but keep it hidden initially
-      setNextImage(idx);
-      setIsFading(false);
+        // preload next image
+        await preloadImage(images[idx].src);
+        if (!mounted) return;
 
-      // after next paint, trigger the cross-fade so both images transition:
-      // current -> opacity 0, next -> opacity 1
-      rafRef.current = requestAnimationFrame(() => {
-        // trigger the transition
-        setIsFading(true);
+        // prepare staged transition
+        setNextImage(idx);           // mount next image (underneath) at opacity 0
+        setPrevImage(currentImage);  // keep previous image (on top) for fade out
+        setIsFadingIn(false);
+        // start fade out of previous image
+        // slight delay to ensure DOM paint
+        timeoutRef.current = setTimeout(() => {
+          if (!mounted) return;
+          setIsFadingOut(true); // prev -> opacity 0
+        }, 20);
 
-        // after fade duration, commit the new current image and clear transition state
-        fadeTimeoutRef.current = setTimeout(() => {
-          setCurrentImage(idx);
-          setIsFading(false);
-          setNextImage(null);
-        }, FADE_DURATION);
-      });
+        // when fade-out finishes, swap current, remove prev and start fade-in
+        timeoutRef2.current = setTimeout(() => {
+          if (!mounted) return;
+          setIsFadingOut(false);
+          setPrevImage(null);     // remove prev from DOM
+          setCurrentImage(idx);   // commit new image as current
+          setIsFadingIn(true);    // start fade in of next
+          // after fade-in done, clear nextImage and fading state
+          timeoutRef.current = setTimeout(() => {
+            if (!mounted) return;
+            setIsFadingIn(false);
+            setNextImage(null);
+          }, FADE_IN_MS);
+        }, FADE_OUT_MS + 20); // ensure this runs after the out transition
+      })();
     }, IMAGE_DURATION * 1000);
 
     return () => {
+      mounted = false;
       if (intervalRef.current) clearInterval(intervalRef.current);
-      if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (timeoutRef2.current) clearTimeout(timeoutRef2.current);
     };
-    // include currentImage in deps so new intervals use the latest base image
-  }, [currentImage, images.length]);
+    // include currentImage so interval recalculates against latest base image
+  }, [currentImage, images]);
 
   return (
     <div>
       <div className="flex h-screen flex-col items-center justify-center">
         <div className="relative flex h-2/3 w-2/3 items-center justify-center">
-          {/* current image - stable key tied to currentImage */}
-          <img
-            key={`img-current-${currentImage}`}
-            className="drop-shadow-logo absolute top-0 left-0 h-full w-full object-contain transition-opacity"
-            src={images[currentImage].src}
-            alt={images[currentImage].alt}
-            style={{ opacity: isFading ? 0 : 1, transitionDuration: `${FADE_DURATION}ms` }}
-            aria-hidden={isFading}
-          />
-          {/* next image - only render while transitioning; stable key tied to nextImage */}
+          {/* next image (underneath) - rendered during transition, fades in */}
           {nextImage !== null && (
             <img
               key={`img-next-${nextImage}`}
               className="drop-shadow-logo absolute top-0 left-0 h-full w-full object-contain transition-opacity"
               src={images[nextImage].src}
               alt={images[nextImage].alt}
-              style={{ opacity: isFading ? 1 : 0, transitionDuration: `${FADE_DURATION}ms` }}
-              aria-hidden={!isFading}
+              style={{
+                opacity: isFadingIn ? 1 : 0,
+                transitionDuration: `${FADE_IN_MS}ms`,
+                zIndex: 1,
+              }}
+              aria-hidden={!isFadingIn}
+            />
+          )}
+
+          {/* current image - normal display or will become the 'prev' during transition */}
+          <img
+            key={`img-current-${currentImage}`}
+            className="drop-shadow-logo absolute top-0 left-0 h-full w-full object-contain transition-opacity"
+            src={images[currentImage].src}
+            alt={images[currentImage].alt}
+            style={{
+              opacity: prevImage !== null && isFadingOut ? 0 : 1,
+              transitionDuration: `${FADE_OUT_MS}ms`,
+              zIndex: prevImage !== null ? 2 : 1,
+            }}
+            aria-hidden={false}
+          />
+
+          {/* previous image (kept for fade-out) - rendered on top while fading out */}
+          {prevImage !== null && (
+            <img
+              key={`img-prev-${prevImage}`}
+              className="drop-shadow-logo absolute top-0 left-0 h-full w-full object-contain transition-opacity"
+              src={images[prevImage].src}
+              alt={images[prevImage].alt}
+              style={{
+                opacity: isFadingOut ? 0 : 1,
+                transitionDuration: `${FADE_OUT_MS}ms`,
+                zIndex: 3,
+              }}
+              aria-hidden={isFadingOut}
             />
           )}
         </div>
+
         <h1 className="text-9xl">{images[currentImage].text}</h1>
       </div>
 
