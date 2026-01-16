@@ -53,7 +53,7 @@ const Lyrics: React.FC<TProps> = ({ lyrics }) => {
         return (
           <p
             key={index}
-            className={`${formattedLyric.format} min-h-8 leading-tight font-semibold`}
+            className={`${formattedLyric.format} min-h-8 leading-tight font-semibold ${isResizingText ? 'invisible' : ''}`}
             style={{ fontSize }}
           >
             {formattedLyric.lyric}
